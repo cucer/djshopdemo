@@ -1,0 +1,24 @@
+main {
+  min-height: 80vh;
+}
+
+#adminmenu {
+  color: #93c;
+}
+
+#navbar,
+.dropdown-item {
+  font-size: 14px;
+}
+
+.page-link:hover,
+.page-item.active .page-link {
+  background-color: #93c !important;
+  border-color: #93c !important;
+}
+
+.alert {
+  padding: 0.3rem 0.3rem !important;
+  font-size: 0.75rem;
+  width: 40%;
+}
