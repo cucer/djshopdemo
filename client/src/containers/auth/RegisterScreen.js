@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { /*useDispatch,*/ useSelector } from "react-redux";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import FormContainer from "../../components/main/FormContainer";
 import Message from "../../components/main/Message";
 import Loader from "../../components/main/Loader";
-import { register } from "../../redux/actions/userActions";
+// import { register } from "../../redux/actions/userActions";
 
 const RegisterScreen = () => {
   // Redux
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const userRegister = useSelector((state) => state.userRegister);
   const { loading, error, userInfo } = userRegister;
 
@@ -37,7 +37,8 @@ const RegisterScreen = () => {
     if (password !== confirmPassword) {
       setMessage("Password does not match!");
     } else {
-      dispatch(register(name, email, password));
+      alert("You have to implement your own method!");
+      // dispatch(register(name, email, password));
     }
   };
 

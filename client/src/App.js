@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Container } from "react-bootstrap";
+import ReactGa from "react-ga";
 import Header from "./components/main/Header";
 import Footer from "./components/main/Footer";
 import { PrivateRoute } from "./components/route/PrivateRoute";
@@ -23,6 +24,11 @@ import OrderScreen from "./containers/process/OrderScreen";
 import OrderListScreen from "./containers/process/OrderListScreen";
 
 const App = () => {
+  useEffect(() => {
+    ReactGa.initialize("UA-62711254-5");
+    ReactGa.pageview("/djshopdemo");
+  }, []);
+
   return (
     <Router>
       <Header />
