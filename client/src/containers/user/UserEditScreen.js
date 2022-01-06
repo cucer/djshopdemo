@@ -54,7 +54,8 @@ const UserEditScreen = () => {
   // Methods
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(updateUser({ _id: userId, name, email, isAdmin }));
+    alert("You have to implement your own method!");
+    // dispatch(updateUser({ _id: userId, name, email, isAdmin }));
   };
 
   const handleNameChange = (e) => {

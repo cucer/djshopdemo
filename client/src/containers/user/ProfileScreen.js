@@ -55,7 +55,8 @@ const ProfileScreen = () => {
     if (password !== confirmPassword) {
       setMessage("Password do not match!");
     } else {
-      dispatch(updateUserProfile({ id: user._id, name, email, password }));
+      alert("You have to implement your own method!");
+      // dispatch(updateUserProfile({ id: user._id, name, email, password }));
     }
   };
 
