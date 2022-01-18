@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Form } from "react-bootstrap";
+import { useInput } from "../../hooks/useInput";
 import FormContainer from "../../components/main/FormContainer";
 import CheckoutSteps from "../../components/main/CheckoutSteps";
 import { saveShippingAddress } from "../../redux/actions/cartActions";
@@ -25,10 +26,13 @@ const ShippingScreen = () => {
     : "";
   const vCountry = shippingAddress.country ? shippingAddress.country : "";
 
-  const [address, setAddress] = useState(vAddress);
-  const [city, setCity] = useState(vCity);
-  const [postalCode, setPostalCode] = useState(vPostalCode);
-  const [country, setCountry] = useState(vCountry);
+  // Custom Hook (setInputs = handleChange)
+  const [inputs, setInputs] = useInput({
+    address: vAddress,
+    city: vCity,
+    postalCode: vPostalCode,
+    country: vCountry,
+  });
 
   useEffect(() => {
     if (!userInfo) {
@@ -39,29 +43,17 @@ const ShippingScreen = () => {
   // Methods
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(saveShippingAddress({ address, city, postalCode, country }));
+    dispatch(
+      saveShippingAddress({
+        address: inputs.address,
+        city: inputs.city,
+        postalCode: inputs.postalCode,
+        country: inputs.country,
+      })
+    );
     navigate("/payment");
   };
 
-  const handleAddressChange = (e) => {
-    e.preventDefault();
-    setAddress(e.target.value);
-  };
-
-  const handleCityChange = (e) => {
-    e.preventDefault();
-    setCity(e.target.value);
-  };
-
-  const handlePostalCodeChange = (e) => {
-    e.preventDefault();
-    setPostalCode(e.target.value);
-  };
-
-  const handleCountryChange = (e) => {
-    e.preventDefault();
-    setCountry(e.target.value);
-  };
   return (
     <FormContainer>
       <CheckoutSteps step1 />
@@ -73,11 +65,12 @@ const ShippingScreen = () => {
           <Form.Label>Address</Form.Label>
           <Form.Control
             type='text'
+            name='address'
             size='sm'
             placeholder='Enter address'
-            value={address}
+            value={inputs.address}
             required
-            onChange={handleAddressChange}
+            onChange={setInputs}
           ></Form.Control>
         </Form.Group>
 
@@ -85,11 +78,12 @@ const ShippingScreen = () => {
           <Form.Label>City</Form.Label>
           <Form.Control
             type='text'
+            name='city'
             size='sm'
             placeholder='Enter city'
-            value={city}
+            value={inputs.city}
             required
-            onChange={handleCityChange}
+            onChange={setInputs}
           ></Form.Control>
         </Form.Group>
 
@@ -97,11 +91,12 @@ const ShippingScreen = () => {
           <Form.Label>Postal Code</Form.Label>
           <Form.Control
             type='text'
+            name='postalCode'
             size='sm'
             placeholder='Enter postal code'
-            value={postalCode}
+            value={inputs.postalCode}
             required
-            onChange={handlePostalCodeChange}
+            onChange={setInputs}
           ></Form.Control>
         </Form.Group>
 
@@ -109,11 +104,12 @@ const ShippingScreen = () => {
           <Form.Label>Country</Form.Label>
           <Form.Control
             type='text'
+            name='country'
             size='sm'
             placeholder='Enter country'
-            value={country}
+            value={inputs.country}
             required
-            onChange={handleCountryChange}
+            onChange={setInputs}
           ></Form.Control>
         </Form.Group>
 

@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { Row, Col, Form, Button } from "react-bootstrap";
+import { useInput } from "../../hooks/useInput";
 import FormContainer from "../../components/main/FormContainer";
 import Loader from "../../components/main/Loader";
 import Message from "../../components/main/Message";
@@ -13,9 +14,11 @@ const LoginScreen = () => {
   const userLogin = useSelector((state) => state.userLogin);
   const { loading, error, userInfo } = userLogin;
 
-  // State
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // Custom Hook (setInputs = handleChange)
+  const [inputs, setInputs] = useInput({
+    email: "",
+    password: "",
+  });
 
   // Route
   let navigate = useNavigate();
@@ -32,17 +35,7 @@ const LoginScreen = () => {
   // Methods
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(login(email, password));
-  };
-
-  const handleEmailChange = (e) => {
-    e.preventDefault();
-    setEmail(e.target.value);
-  };
-
-  const handlePasswordChange = (e) => {
-    e.preventDefault();
-    setPassword(e.target.value);
+    dispatch(login(inputs.email, inputs.password));
   };
 
   return (
@@ -57,10 +50,11 @@ const LoginScreen = () => {
           <Form.Label>Email address</Form.Label>
           <Form.Control
             type='email'
+            name='email'
             size='sm'
             placeholder='Enter email'
-            value={email}
-            onChange={handleEmailChange}
+            value={inputs.email}
+            onChange={setInputs}
           />
         </Form.Group>
 
@@ -68,10 +62,11 @@ const LoginScreen = () => {
           <Form.Label>Password</Form.Label>
           <Form.Control
             type='password'
+            name='password'
             size='sm'
             placeholder='Password'
-            value={password}
-            onChange={handlePasswordChange}
+            value={inputs.password}
+            onChange={setInputs}
           />
           <Form.Text className='text-muted'>
             Username: demo@demo.com Password: 123456

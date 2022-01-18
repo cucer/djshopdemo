@@ -1,24 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { /*useDispatch,*/ useSelector } from "react-redux";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { Row, Col, Form, Button } from "react-bootstrap";
+import { useInput } from "../../hooks/useInput";
 import FormContainer from "../../components/main/FormContainer";
 import Message from "../../components/main/Message";
 import Loader from "../../components/main/Loader";
-import { register } from "../../redux/actions/userActions";
+// import { register } from "../../redux/actions/userActions";
 
 const RegisterScreen = () => {
   // Redux
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const userRegister = useSelector((state) => state.userRegister);
   const { loading, error, userInfo } = userRegister;
 
   // State
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState(null);
+
+  // Custom Hook (setInputs = handleChange)
+  const [inputs, setInputs] = useInput({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
 
   // Route
   let navigate = useNavigate();
@@ -34,32 +39,12 @@ const RegisterScreen = () => {
   // Methods
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
+    if (inputs.password !== inputs.confirmPassword) {
       setMessage("Password does not match!");
     } else {
       alert("You have to implement your own method!");
-      // dispatch(register(name, email, password));
+      // dispatch(register(inputs.name, inputs.email, inputs.password));
     }
-  };
-
-  const handleNameChange = (e) => {
-    e.preventDefault();
-    setName(e.target.value);
-  };
-
-  const handleEmailChange = (e) => {
-    e.preventDefault();
-    setEmail(e.target.value);
-  };
-
-  const handlePasswordChange = (e) => {
-    e.preventDefault();
-    setPassword(e.target.value);
-  };
-
-  const handleConfirmPasswordChange = (e) => {
-    e.preventDefault();
-    setConfirmPassword(e.target.value);
   };
 
   return (
@@ -75,10 +60,11 @@ const RegisterScreen = () => {
           <Form.Label>Name</Form.Label>
           <Form.Control
             type='name'
+            name='name'
             size='sm'
             placeholder='Enter name'
-            value={name}
-            onChange={handleNameChange}
+            value={inputs.name}
+            onChange={setInputs}
           />
         </Form.Group>
 
@@ -86,10 +72,11 @@ const RegisterScreen = () => {
           <Form.Label>Email address</Form.Label>
           <Form.Control
             type='email'
+            name='email'
             size='sm'
             placeholder='Enter email'
-            value={email}
-            onChange={handleEmailChange}
+            value={inputs.email}
+            onChange={setInputs}
           />
         </Form.Group>
 
@@ -97,10 +84,11 @@ const RegisterScreen = () => {
           <Form.Label>Password</Form.Label>
           <Form.Control
             type='password'
+            name='password'
             size='sm'
             placeholder='Password'
-            value={password}
-            onChange={handlePasswordChange}
+            value={inputs.password}
+            onChange={setInputs}
           />
         </Form.Group>
 
@@ -108,10 +96,11 @@ const RegisterScreen = () => {
           <Form.Label>Confirm Password</Form.Label>
           <Form.Control
             type='password'
+            name='confirmPassword'
             size='sm'
             placeholder='Confirm Password'
-            value={confirmPassword}
-            onChange={handleConfirmPasswordChange}
+            value={inputs.confirmPassword}
+            onChange={setInputs}
           />
         </Form.Group>
 

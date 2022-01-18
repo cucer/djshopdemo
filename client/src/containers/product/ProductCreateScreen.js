@@ -3,6 +3,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
+import { useInput } from "../../hooks/useInput";
 import Message from "../../components/main/Message";
 import Loader from "../../components/main/Loader";
 import FormContainer from "../../components/main/FormContainer";
@@ -18,14 +19,18 @@ const ProductCreateScreen = () => {
   const { loading, error, success } = productCreate;
 
   // State
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState(0);
   const [image, setImage] = useState("");
-  const [brand, setBrand] = useState("");
-  const [countInStock, setCountInStock] = useState(0);
-  const [category, setCategory] = useState("");
-  const [description, setDescription] = useState("");
   const [uploading, setUploading] = useState(false);
+
+  // Custom Hook (setInputs = handleChange)
+  const [inputs, setInputs] = useInput({
+    name: "",
+    price: 0,
+    brand: "",
+    countInStock: 0,
+    category: "",
+    description: "",
+  });
 
   // Route
   let navigate = useNavigate();
@@ -70,45 +75,15 @@ const ProductCreateScreen = () => {
     e.preventDefault();
     dispatch(
       createProduct({
-        name,
-        price,
+        name: inputs.name,
+        price: inputs.price,
         image,
-        brand,
-        category,
-        description,
-        countInStock,
+        brand: inputs.brand,
+        category: inputs.category,
+        description: inputs.description,
+        countInStock: inputs.countInStock,
       })
     );
-  };
-
-  const handleNameChange = (e) => {
-    e.preventDefault();
-    setName(e.target.value);
-  };
-
-  const handlePriceChange = (e) => {
-    e.preventDefault();
-    setPrice(e.target.value);
-  };
-
-  const handleBrandChange = (e) => {
-    e.preventDefault();
-    setBrand(e.target.value);
-  };
-
-  const handleStockChange = (e) => {
-    e.preventDefault();
-    setCountInStock(e.target.value);
-  };
-
-  const handleCategoryChange = (e) => {
-    e.preventDefault();
-    setCategory(e.target.value);
-  };
-
-  const handleDescriptionChange = (e) => {
-    e.preventDefault();
-    setDescription(e.target.value);
   };
 
   return (
@@ -129,10 +104,11 @@ const ProductCreateScreen = () => {
             <Form.Label>Name</Form.Label>
             <Form.Control
               type='text'
+              name='name'
               size='sm'
               placeholder='Enter name'
-              value={name}
-              onChange={handleNameChange}
+              value={inputs.name}
+              onChange={setInputs}
               required
             ></Form.Control>
           </Form.Group>
@@ -141,10 +117,11 @@ const ProductCreateScreen = () => {
             <Form.Label>Price</Form.Label>
             <Form.Control
               type='number'
+              name='price'
               size='sm'
               placeholder='Enter price'
-              value={price}
-              onChange={handlePriceChange}
+              value={inputs.price}
+              onChange={setInputs}
               required
             ></Form.Control>
           </Form.Group>
@@ -162,7 +139,7 @@ const ProductCreateScreen = () => {
 
           <Form.Group className='mb-3' controlId='brand'>
             <Form.Label>Brand</Form.Label>
-            <Form.Select size='sm' onChange={handleBrandChange}>
+            <Form.Select size='sm' name='brand' onChange={setInputs}>
               <option>Select Brand</option>
               <option value='Pioneer DJ'>Pioneer DJ</option>
               <option value='Denon DJ'>Denon DJ</option>
@@ -175,17 +152,18 @@ const ProductCreateScreen = () => {
             <Form.Label>Count In Stock</Form.Label>
             <Form.Control
               type='number'
+              name='countInStock'
               size='sm'
               placeholder='Enter countInStock'
-              value={countInStock}
-              onChange={handleStockChange}
+              value={inputs.countInStock}
+              onChange={setInputs}
               required
             ></Form.Control>
           </Form.Group>
 
           <Form.Group className='mb-3' controlId='category'>
             <Form.Label>Category</Form.Label>
-            <Form.Select size='sm' onChange={handleCategoryChange}>
+            <Form.Select size='sm' name='category' onChange={setInputs}>
               <option>Select Category</option>
               <option value='DJ Player'>DJ Player</option>
               <option value='DJ Mixer'>DJ Mixer</option>
@@ -201,10 +179,11 @@ const ProductCreateScreen = () => {
             <Form.Label>Description</Form.Label>
             <Form.Control
               type='text'
+              name='description'
               size='sm'
               placeholder='Enter description'
-              value={description}
-              onChange={handleDescriptionChange}
+              value={inputs.description}
+              onChange={setInputs}
               required
               as='textarea'
               rows={2}
