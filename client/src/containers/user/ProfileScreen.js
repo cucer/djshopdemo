@@ -7,7 +7,7 @@ import Message from "../../components/main/Message";
 import Loader from "../../components/main/Loader";
 import {
   getUserDetails,
-  updateUserProfile,
+  // updateUserProfile,
 } from "../../redux/actions/userActions";
 import { listMyOrders } from "../../redux/actions/orderActions";
 import { USER_UPDATE_PROFILE_RESET } from "../../redux/constants/userConstants";

@@ -20,7 +20,7 @@ const Header = () => {
     <header>
       <Navbar bg='dark' variant='dark' expand='lg' collapseOnSelect id='navbar'>
         <Container>
-          <LinkContainer to='/home'>
+          <LinkContainer to={userInfo ? "/home" : "/"}>
             <Navbar.Brand>
               DJ Shop
               <span className='text-info mx-2'>DEMO</span>

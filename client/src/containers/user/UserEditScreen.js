@@ -5,7 +5,10 @@ import { Button, Form } from "react-bootstrap";
 import Message from "../../components/main/Message";
 import Loader from "../../components/main/Loader";
 import FormContainer from "../../components/main/FormContainer";
-import { getUserDetails, updateUser } from "../../redux/actions/userActions";
+import {
+  getUserDetails,
+  // updateUser
+} from "../../redux/actions/userActions";
 import { USER_UPDATE_RESET } from "../../redux/constants/userConstants";
 
 const UserEditScreen = () => {
