@@ -35,7 +35,7 @@ const Header = () => {
             id='basic-navbar-nav'
             className='justify-content-end'
           >
-            <SearchBox />
+            {userInfo && <SearchBox />}
             <Nav className='ml-auto'>
               {userInfo && userInfo.isAdmin && (
                 <NavDropdown title='Admin Panel' id='adminmenu'>
@@ -51,11 +51,13 @@ const Header = () => {
                 </NavDropdown>
               )}
 
-              <LinkContainer to='/cart'>
-                <Nav.Link>
-                  <i className='fas fa-shopping-cart px-1'></i>Cart
-                </Nav.Link>
-              </LinkContainer>
+              {userInfo && (
+                <LinkContainer to='/cart'>
+                  <Nav.Link>
+                    <i className='fas fa-shopping-cart px-1'></i>Cart
+                  </Nav.Link>
+                </LinkContainer>
+              )}
               {userInfo ? (
                 <NavDropdown title={userInfo.name} id='username'>
                   <LinkContainer to='/profile'>
