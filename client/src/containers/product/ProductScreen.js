@@ -81,17 +81,14 @@ const ProductScreen = () => {
   };
 
   const handleQtyChange = (e) => {
-    e.preventDefault();
     setQty(e.target.value);
   };
 
   const handleRatingChange = (e) => {
-    e.preventDefault();
     setRating(e.target.value);
   };
 
   const handleCommentChange = (e) => {
-    e.preventDefault();
     setComment(e.target.value);
   };
 

@@ -22,9 +22,10 @@ const SearchBox = () => {
   };
 
   const handleKeywordChange = (e) => {
-    e.preventDefault();
     setKeyword(e.target.value);
   };
+
+  console.log("render");
 
   return (
     <Form onSubmit={handleSubmit} className='d-flex'>

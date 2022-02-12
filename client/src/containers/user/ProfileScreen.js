@@ -61,22 +61,18 @@ const ProfileScreen = () => {
   };
 
   const handleNameChange = (e) => {
-    e.preventDefault();
     setName(e.target.value);
   };
 
   const handleEmailChange = (e) => {
-    e.preventDefault();
     setEmail(e.target.value);
   };
 
   const handlePasswordChange = (e) => {
-    e.preventDefault();
     setPassword(e.target.value);
   };
 
   const handleConfirmPasswordChange = (e) => {
-    e.preventDefault();
     setConfirmPassword(e.target.value);
   };
 

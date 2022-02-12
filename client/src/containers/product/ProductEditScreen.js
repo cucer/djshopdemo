@@ -106,32 +106,26 @@ const ProductEditScreen = () => {
   };
 
   const handleNameChange = (e) => {
-    e.preventDefault();
     setName(e.target.value);
   };
 
   const handlePriceChange = (e) => {
-    e.preventDefault();
     setPrice(e.target.value);
   };
 
   const handleBrandChange = (e) => {
-    e.preventDefault();
     setBrand(e.target.value);
   };
 
   const handleStockChange = (e) => {
-    e.preventDefault();
     setCountInStock(e.target.value);
   };
 
   const handleCategoryChange = (e) => {
-    e.preventDefault();
     setCategory(e.target.value);
   };
 
   const handleDescriptionChange = (e) => {
-    e.preventDefault();
     setDescription(e.target.value);
   };
 

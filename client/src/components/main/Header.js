@@ -12,7 +12,8 @@ const Header = () => {
   const { userInfo } = userLogin;
 
   // Methods
-  const handleLogout = () => {
+  const handleLogout = (e) => {
+    e.preventDefault();
     dispatch(logout());
   };
 

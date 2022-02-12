@@ -36,7 +36,6 @@ const PaymentScreen = () => {
   };
 
   const handlePaymentMethod = (e) => {
-    e.preventDefault();
     setPaymentMethod(e.target.value);
   };
 

@@ -62,17 +62,14 @@ const UserEditScreen = () => {
   };
 
   const handleNameChange = (e) => {
-    e.preventDefault();
     setName(e.target.value);
   };
 
   const handleEmailChange = (e) => {
-    e.preventDefault();
     setEmail(e.target.value);
   };
 
   const handleAdminChange = (e) => {
-    e.preventDefault();
     setIsAdmin(e.target.checked);
   };
 
