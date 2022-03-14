@@ -1,4 +1,5 @@
 import React, { Suspense, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import ReactGa from "react-ga";
@@ -52,6 +53,10 @@ const OrderListScreen = React.lazy(() =>
 );
 
 const App = () => {
+  // Redux
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
   useEffect(() => {
     ReactGa.initialize("UA-62711254-5");
     ReactGa.pageview("/djshopdemo");
@@ -59,7 +64,7 @@ const App = () => {
 
   return (
     <Router>
-      <Suspense fallback={<Loader />}>
+      <Suspense fallback={userInfo ? <Header /> : <Loader />}>
         <Header />
         <main className='py-3'>
           <Container>
