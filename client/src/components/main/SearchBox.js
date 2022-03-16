@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { Button, Form } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import { Button, Form } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 const SearchBox = () => {
   // State
-  const [keyword, setKeyword] = useState("");
+  const [keyword, setKeyword] = useState('');
 
   // Route
   let navigate = useNavigate();
@@ -17,15 +17,13 @@ const SearchBox = () => {
     if (keyword.trim()) {
       navigate(`/search/${keyword}`);
     } else {
-      navigate("/");
+      navigate('/');
     }
   };
 
   const handleKeywordChange = (e) => {
     setKeyword(e.target.value);
   };
-
-  console.log("render");
 
   return (
     <Form onSubmit={handleSubmit} className='d-flex'>

@@ -1,6 +1,6 @@
-const asyncHandler = require("express-async-handler");
-const jwt = require("jsonwebtoken");
-const User = require("../models/userModel");
+const asyncHandler = require('express-async-handler');
+const jwt = require('jsonwebtoken');
+const User = require('../models/userModel');
 
 // login&auth check
 const protect = asyncHandler(async (req, res, next) => {
@@ -8,26 +8,38 @@ const protect = asyncHandler(async (req, res, next) => {
 
   if (
     req.headers.authorization &&
-    req.headers.authorization.startsWith("Bearer")
+    req.headers.authorization.startsWith('Bearer')
   ) {
     try {
-      token = req.headers.authorization.split(" ")[1]; // token comes after Bearer word
+      token = req.headers.authorization.split(' ')[1]; // token comes after Bearer word
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const isAdminXss = req.headers.isadminxss; // it must be defined in actions(config.headers.IsAdminXSS)
 
       // Protect password with > select("-password")
-      req.user = await User.findById(decoded.id).select("-password");
+      req.user = await User.findById(decoded.id).select('-password');
+
+      /*
+      // Localstorage changed manual by user
+      if (
+        isAdminXss.toString() === 'true' &&
+        isAdminXss.toString() !== req.user.isAdmin.toString()
+      ) {
+        res.status(401);
+        throw new Error('Not authorized, attack detected');
+      }
+      */
 
       next();
     } catch (error) {
       console.error(error);
       res.status(401);
-      throw new Error("Not authorized, token failed");
+      throw new Error('Not authorized, token failed');
     }
   }
 
   if (!token) {
     res.status(401);
-    throw new Error("Not authorized, no token");
+    throw new Error('Not authorized, no token');
   }
 });
 
@@ -37,7 +49,7 @@ const admin = (req, res, next) => {
     next();
   } else {
     res.status(401);
-    throw new Error("Not authorized as an admin");
+    throw new Error('Not authorized as an admin');
   }
 };
 

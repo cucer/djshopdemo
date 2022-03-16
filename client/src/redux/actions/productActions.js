@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 import {
   PRODUCT_CREATE_REQUEST,
   PRODUCT_CREATE_SUCCESS,
@@ -22,8 +22,8 @@ import {
   PRODUCT_TOP_REQUEST,
   PRODUCT_TOP_SUCCESS,
   PRODUCT_TOP_FAIL,
-} from "../constants/productConstants";
-import { logout } from "./userActions";
+} from '../constants/productConstants';
+import { logout } from './userActions';
 
 export const createProduct = (product) => async (dispatch, getState) => {
   try {
@@ -55,7 +55,11 @@ export const createProduct = (product) => async (dispatch, getState) => {
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-    if (message === "Not authorized, token failed") {
+    if (
+      message === 'Not authorized, token failed' ||
+      message === 'Not authorized, no token' ||
+      message === 'Not authorized as an admin'
+    ) {
       dispatch(logout());
     }
     dispatch({
@@ -67,7 +71,7 @@ export const createProduct = (product) => async (dispatch, getState) => {
 
 // We use this action in header and product list. Keyword for header search box
 export const listProducts =
-  (keyword = "", pageNumber = "") =>
+  (keyword = '', pageNumber = '') =>
   async (dispatch, getState) => {
     try {
       dispatch({ type: PRODUCT_LIST_REQUEST });
@@ -81,6 +85,7 @@ export const listProducts =
       const config = {
         headers: {
           Authorization: `Bearer ${userInfo.token}`,
+          // IsAdminXSS: userInfo.isAdmin, // TEST PURPOSE
         },
       };
 
@@ -96,7 +101,11 @@ export const listProducts =
         error.response && error.response.data.message
           ? error.response.data.message
           : error.message;
-      if (message === "Not authorized, token failed") {
+      if (
+        message === 'Not authorized, token failed' ||
+        message === 'Not authorized, no token' ||
+        message === 'Not authorized as an admin'
+      ) {
         dispatch(logout());
       }
       dispatch({
@@ -133,7 +142,11 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-    if (message === "Not authorized, token failed") {
+    if (
+      message === 'Not authorized, token failed' ||
+      message === 'Not authorized, no token' ||
+      message === 'Not authorized as an admin'
+    ) {
       dispatch(logout());
     }
     dispatch({
@@ -168,7 +181,11 @@ export const listProductDetails = (id) => async (dispatch, getState) => {
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-    if (message === "Not authorized, token failed") {
+    if (
+      message === 'Not authorized, token failed' ||
+      message === 'Not authorized, no token' ||
+      message === 'Not authorized as an admin'
+    ) {
       dispatch(logout());
     }
     dispatch({
@@ -192,7 +209,7 @@ export const updateProduct = (product) => async (dispatch, getState) => {
     // Set token for backend authMiddleware
     const config = {
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
@@ -214,7 +231,11 @@ export const updateProduct = (product) => async (dispatch, getState) => {
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-    if (message === "Not authorized, token failed") {
+    if (
+      message === 'Not authorized, token failed' ||
+      message === 'Not authorized, no token' ||
+      message === 'Not authorized as an admin'
+    ) {
       dispatch(logout());
     }
     dispatch({
@@ -239,7 +260,7 @@ export const createProductReview =
       // Set token for backend authMiddleware
       const config = {
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${userInfo.token}`,
         },
       };
@@ -254,7 +275,11 @@ export const createProductReview =
         error.response && error.response.data.message
           ? error.response.data.message
           : error.message;
-      if (message === "Not authorized, token failed") {
+      if (
+        message === 'Not authorized, token failed' ||
+        message === 'Not authorized, no token' ||
+        message === 'Not authorized as an admin'
+      ) {
         dispatch(logout());
       }
       dispatch({
@@ -281,7 +306,7 @@ export const listTopProducts = () => async (dispatch, getState) => {
     };
 
     // Route&Method for backend route
-    const { data } = await axios.get("/api/products/top", config);
+    const { data } = await axios.get('/api/products/top', config);
 
     dispatch({ type: PRODUCT_TOP_SUCCESS, payload: data });
   } catch (error) {
@@ -289,7 +314,11 @@ export const listTopProducts = () => async (dispatch, getState) => {
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-    if (message === "Not authorized, token failed") {
+    if (
+      message === 'Not authorized, token failed' ||
+      message === 'Not authorized, no token' ||
+      message === 'Not authorized as an admin'
+    ) {
       dispatch(logout());
     }
     dispatch({

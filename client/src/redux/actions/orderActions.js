@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 import {
   ORDER_CREATE_REQUEST,
   ORDER_CREATE_SUCCESS,
@@ -18,9 +18,9 @@ import {
   ORDER_DELIVER_REQUEST,
   ORDER_DELIVER_SUCCESS,
   ORDER_DELIVER_FAIL,
-} from "../constants/orderConstants";
-import { CART_CLEAR_ITEMS } from "../constants/cartConstants";
-import { logout } from "./userActions";
+} from '../constants/orderConstants';
+import { CART_CLEAR_ITEMS } from '../constants/cartConstants';
+import { logout } from './userActions';
 
 export const createOrder = (order) => async (dispatch, getState) => {
   try {
@@ -36,7 +36,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
     // Set token for backend authMiddleware
     const config = {
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
@@ -53,13 +53,17 @@ export const createOrder = (order) => async (dispatch, getState) => {
       payload: data,
     });
 
-    localStorage.removeItem("cartItems");
+    localStorage.removeItem('cartItems');
   } catch (error) {
     const message =
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-    if (message === "Not authorized, token failed") {
+    if (
+      message === 'Not authorized, token failed' ||
+      message === 'Not authorized, no token' ||
+      message === 'Not authorized as an admin'
+    ) {
       dispatch(logout());
     }
     dispatch({
@@ -99,7 +103,11 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-    if (message === "Not authorized, token failed") {
+    if (
+      message === 'Not authorized, token failed' ||
+      message === 'Not authorized, no token' ||
+      message === 'Not authorized as an admin'
+    ) {
       dispatch(logout());
     }
     dispatch({
@@ -124,7 +132,7 @@ export const payOrder =
       // Set token for backend authMiddleware
       const config = {
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${userInfo.token}`,
         },
       };
@@ -145,7 +153,11 @@ export const payOrder =
         error.response && error.response.data.message
           ? error.response.data.message
           : error.message;
-      if (message === "Not authorized, token failed") {
+      if (
+        message === 'Not authorized, token failed' ||
+        message === 'Not authorized, no token' ||
+        message === 'Not authorized as an admin'
+      ) {
         dispatch(logout());
       }
       dispatch({
@@ -189,7 +201,11 @@ export const deliverOrder = (order) => async (dispatch, getState) => {
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-    if (message === "Not authorized, token failed") {
+    if (
+      message === 'Not authorized, token failed' ||
+      message === 'Not authorized, no token' ||
+      message === 'Not authorized as an admin'
+    ) {
       dispatch(logout());
     }
     dispatch({
@@ -229,7 +245,11 @@ export const listMyOrders = () => async (dispatch, getState) => {
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-    if (message === "Not authorized, token failed") {
+    if (
+      message === 'Not authorized, token failed' ||
+      message === 'Not authorized, no token' ||
+      message === 'Not authorized as an admin'
+    ) {
       dispatch(logout());
     }
     dispatch({
@@ -269,7 +289,11 @@ export const listOrders = () => async (dispatch, getState) => {
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-    if (message === "Not authorized, token failed") {
+    if (
+      message === 'Not authorized, token failed' ||
+      message === 'Not authorized, no token' ||
+      message === 'Not authorized as an admin'
+    ) {
       dispatch(logout());
     }
     dispatch({

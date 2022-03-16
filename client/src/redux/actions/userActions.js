@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 import {
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
@@ -24,8 +24,8 @@ import {
   USER_UPDATE_PROFILE_REQUEST,
   USER_UPDATE_PROFILE_SUCCESS,
   USER_UPDATE_PROFILE_FAIL,
-} from "../constants/userConstants";
-import { ORDER_LIST_MY_RESET } from "../constants/orderConstants";
+} from '../constants/userConstants';
+import { ORDER_LIST_MY_RESET } from '../constants/orderConstants';
 
 export const login = (email, password) => async (dispatch) => {
   try {
@@ -35,13 +35,13 @@ export const login = (email, password) => async (dispatch) => {
 
     const config = {
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     };
 
     // Route&Method for backend route
     const { data } = await axios.post(
-      "/api/users/login",
+      '/api/users/login',
       { email, password },
       config
     );
@@ -51,7 +51,7 @@ export const login = (email, password) => async (dispatch) => {
       payload: data,
     });
 
-    localStorage.setItem("userInfo", JSON.stringify(data));
+    localStorage.setItem('userInfo', JSON.stringify(data));
   } catch (error) {
     dispatch({
       type: USER_LOGIN_FAIL,
@@ -64,15 +64,15 @@ export const login = (email, password) => async (dispatch) => {
 };
 
 export const logout = () => (dispatch) => {
-  localStorage.removeItem("userInfo");
-  localStorage.removeItem("cartItems");
-  localStorage.removeItem("shippingAddress");
-  localStorage.removeItem("paymentMethod");
+  localStorage.removeItem('userInfo');
+  localStorage.removeItem('cartItems');
+  localStorage.removeItem('shippingAddress');
+  localStorage.removeItem('paymentMethod');
   dispatch({ type: USER_LOGOUT });
   dispatch({ type: USER_DETAILS_RESET });
   dispatch({ type: ORDER_LIST_MY_RESET });
   dispatch({ type: USER_LIST_RESET });
-  document.location.href = "/";
+  document.location.href = '/';
 };
 
 export const register = (name, email, password) => async (dispatch) => {
@@ -83,13 +83,13 @@ export const register = (name, email, password) => async (dispatch) => {
 
     const config = {
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     };
 
     // Route&Method for backend route
     const { data } = await axios.post(
-      "/api/users",
+      '/api/users',
       { name, email, password },
       config
     );
@@ -106,7 +106,7 @@ export const register = (name, email, password) => async (dispatch) => {
       payload: data,
     });
 
-    localStorage.setItem("userInfo", JSON.stringify(data));
+    localStorage.setItem('userInfo', JSON.stringify(data));
   } catch (error) {
     dispatch({
       type: USER_REGISTER_FAIL,
@@ -137,7 +137,7 @@ export const listUsers = () => async (dispatch, getState) => {
     };
 
     // Route&Method for backend route
-    const { data } = await axios.get("/api/users", config);
+    const { data } = await axios.get('/api/users', config);
 
     dispatch({
       type: USER_LIST_SUCCESS,
@@ -148,7 +148,12 @@ export const listUsers = () => async (dispatch, getState) => {
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-    if (message === "Not authorized, token failed") {
+    console.log('message', message);
+    if (
+      message === 'Not authorized, token failed' ||
+      message === 'Not authorized, no token' ||
+      message === 'Not authorized as an admin'
+    ) {
       dispatch(logout());
     }
     dispatch({
@@ -185,7 +190,11 @@ export const deleteUser = (id) => async (dispatch, getState) => {
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-    if (message === "Not authorized, token failed") {
+    if (
+      message === 'Not authorized, token failed' ||
+      message === 'Not authorized, no token' ||
+      message === 'Not authorized as an admin'
+    ) {
       dispatch(logout());
     }
     dispatch({
@@ -214,7 +223,7 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
     };
 
     // Route&Method for backend route
-    const path = id === "profile" ? "/api/users/profile" : `/api/users/${id}`;
+    const path = id === 'profile' ? '/api/users/profile' : `/api/users/${id}`;
     const { data } = await axios.get(path, config);
     // const { data } = await axios.get(`/api/users/${id}`, config);
 
@@ -227,7 +236,11 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-    if (message === "Not authorized, token failed") {
+    if (
+      message === 'Not authorized, token failed' ||
+      message === 'Not authorized, no token' ||
+      message === 'Not authorized as an admin'
+    ) {
       dispatch(logout());
     }
     dispatch({
@@ -251,7 +264,7 @@ export const updateUser = (user) => async (dispatch, getState) => {
     // Set token for backend authMiddleware
     const config = {
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
@@ -268,7 +281,11 @@ export const updateUser = (user) => async (dispatch, getState) => {
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-    if (message === "Not authorized, token failed") {
+    if (
+      message === 'Not authorized, token failed' ||
+      message === 'Not authorized, no token' ||
+      message === 'Not authorized as an admin'
+    ) {
       dispatch(logout());
     }
     dispatch({
@@ -292,13 +309,13 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
     // Set token for backend authMiddleware
     const config = {
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
 
     // Route&Method for backend route
-    const { data } = await axios.put("/api/users/profile", user, config);
+    const { data } = await axios.put('/api/users/profile', user, config);
 
     dispatch({
       type: USER_UPDATE_PROFILE_SUCCESS,
@@ -311,13 +328,17 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
       payload: data,
     });
 
-    localStorage.setItem("userInfo", JSON.stringify(data));
+    localStorage.setItem('userInfo', JSON.stringify(data));
   } catch (error) {
     const message =
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-    if (message === "Not authorized, token failed") {
+    if (
+      message === 'Not authorized, token failed' ||
+      message === 'Not authorized, no token' ||
+      message === 'Not authorized as an admin'
+    ) {
       dispatch(logout());
     }
     dispatch({
