@@ -25,7 +25,7 @@ const createProduct = asyncHandler(async (req, res) => {
 // @desc   Fetch all products
 // @route  GET /api/products
 // @access Private
-const getProducts = asyncHandler(async (req, res) => {
+const getHomeProducts = asyncHandler(async (req, res) => {
   const pageSize = 12; // pagination(divider)
   // for example: if we have only 6 products and pageSize = 10 >>> pagination will not appear
   // for example: if we have 20 products and pageSize = 10 >>> pagination will show 2 pages
@@ -45,6 +45,25 @@ const getProducts = asyncHandler(async (req, res) => {
   const count = await Product.countDocuments({ ...keyword }); // how many product?
 
   const products = await Product.find({ ...keyword })
+    .limit(pageSize)
+    .skip(pageSize * (page - 1));
+
+  res.json({ products, page, pages: Math.ceil(count / pageSize) });
+});
+
+// @desc   Fetch all products
+// @route  GET /api/products
+// @access Private/Admin
+// It must be like getHomeProducts
+const getAdminProducts = asyncHandler(async (req, res) => {
+  const pageSize = 12; // pagination(divider)
+  // for example: if we have only 6 products and pageSize = 10 >>> pagination will not appear
+  // for example: if we have 20 products and pageSize = 10 >>> pagination will show 2 pages
+  const page = Number(req.query.pageNumber) || 1; // current page
+
+  const count = await Product.countDocuments({}); // how many product?
+
+  const products = await Product.find({})
     .limit(pageSize)
     .skip(pageSize * (page - 1));
 
@@ -161,7 +180,8 @@ const getTopProducts = asyncHandler(async (req, res) => {
 
 module.exports = {
   createProduct,
-  getProducts,
+  getHomeProducts,
+  getAdminProducts,
   deleteProduct,
   getProductById,
   updateProduct,

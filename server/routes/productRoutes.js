@@ -7,8 +7,13 @@ const router = express.Router();
 // /api/products
 router
   .route('/')
-  .get(auth.protect, productController.getProducts)
+  .get(auth.protect, productController.getHomeProducts)
   .post(auth.protect, auth.admin, productController.createProduct);
+
+// /api/products/admin
+router
+  .route('/admin')
+  .get(auth.protect, auth.admin, productController.getAdminProducts);
 
 // /api/products:id/reviews
 router

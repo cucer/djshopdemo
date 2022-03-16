@@ -81,6 +81,33 @@ export const listProducts =
     }
   };
 
+export const listAdminProducts =
+  (pageNumber = '') =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: PRODUCT_LIST_REQUEST });
+
+      // Route&Method for backend route
+      const { data } = await axios.get(
+        `/api/products/admin?pageNumber=${pageNumber}`
+      );
+
+      dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
+    } catch (error) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+      if (message === 'Not authorized!') {
+        dispatch(logout());
+      }
+      dispatch({
+        type: PRODUCT_LIST_FAIL,
+        payload: message,
+      });
+    }
+  };
+
 export const deleteProduct = (id) => async (dispatch) => {
   try {
     dispatch({

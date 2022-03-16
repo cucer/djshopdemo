@@ -46,10 +46,14 @@ export const login = (email, password) => async (dispatch) => {
       config
     );
 
+    // const storageData = (({ isAdmin, isAuthenticated, ...o }) => o)(data);
+
     dispatch({
       type: USER_LOGIN_SUCCESS,
       payload: data,
     });
+
+    localStorage.setItem('userInfo', JSON.stringify(data));
   } catch (error) {
     dispatch({
       type: USER_LOGIN_FAIL,
@@ -62,6 +66,7 @@ export const login = (email, password) => async (dispatch) => {
 };
 
 export const logout = () => async (dispatch) => {
+  localStorage.removeItem('userInfo');
   localStorage.removeItem('cartItems');
   localStorage.removeItem('shippingAddress');
   localStorage.removeItem('paymentMethod');
@@ -95,6 +100,8 @@ export const register = (name, email, password) => async (dispatch) => {
       config
     );
 
+    // const storageData = (({ isAdmin, isAuthenticated, ...o }) => o)(data);
+
     // First Step: register
     dispatch({
       type: USER_REGISTER_SUCCESS,
@@ -106,6 +113,8 @@ export const register = (name, email, password) => async (dispatch) => {
       type: USER_LOGIN_SUCCESS,
       payload: data,
     });
+
+    localStorage.setItem('userInfo', JSON.stringify(data));
   } catch (error) {
     dispatch({
       type: USER_REGISTER_FAIL,
@@ -248,6 +257,8 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
     // Route&Method for backend route
     const { data } = await axios.put('/api/users/profile', user, config);
 
+    // const storageData = (({ isAdmin, isAuthenticated, ...o }) => o)(data);
+
     dispatch({
       type: USER_UPDATE_PROFILE_SUCCESS,
       payload: data,
@@ -258,6 +269,8 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
       type: USER_LOGIN_SUCCESS,
       payload: data,
     });
+
+    localStorage.setItem('userInfo', JSON.stringify(data));
   } catch (error) {
     const message =
       error.response && error.response.data.message

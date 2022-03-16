@@ -40,7 +40,7 @@ const loginUser = asyncHandler(async (req, res) => {
 // @access Public
 const logoutUser = asyncHandler(async (req, res) => {
   req.session.destroy((err) => {
-    console.error('Logout error:', err);
+    err && console.error('Logout error:', err);
   });
 });
 

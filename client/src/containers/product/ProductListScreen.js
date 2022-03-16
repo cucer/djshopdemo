@@ -7,7 +7,7 @@ import Message from '../../components/main/Message';
 import Loader from '../../components/main/Loader';
 import Paginate from '../../components/main/Paginate';
 import {
-  listProducts,
+  listAdminProducts,
   deleteProduct,
 } from '../../redux/actions/productActions';
 
@@ -34,7 +34,7 @@ const ProductListScreen = () => {
     if (!userInfo) {
       navigate('/');
     } else {
-      dispatch(listProducts('', pageNumber)); // first parameter "" for keyword but it is not necessary in admin page, second one is for pagination
+      dispatch(listAdminProducts(pageNumber));
     }
   }, [dispatch, navigate, userInfo, pageNumber, successDelete]);
 
