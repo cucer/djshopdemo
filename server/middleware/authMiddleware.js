@@ -1,45 +1,22 @@
 const asyncHandler = require('express-async-handler');
-const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
 
 // login&auth check
 const protect = asyncHandler(async (req, res, next) => {
-  let token;
+  if (!req.session.user || !req.session.isLoggedIn) {
+    res.status(401);
+    throw new Error('Not authorized!');
+  }
 
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith('Bearer')
-  ) {
+  if (req.session && req.session.user && req.session.isLoggedIn) {
     try {
-      token = req.headers.authorization.split(' ')[1]; // token comes after Bearer word
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      const isAdminXss = req.headers.isadminxss; // it must be defined in actions(config.headers.IsAdminXSS)
-
-      // Protect password with > select("-password")
-      req.user = await User.findById(decoded.id).select('-password');
-
-      /*
-      // Localstorage changed manual by user
-      if (
-        isAdminXss.toString() === 'true' &&
-        isAdminXss.toString() !== req.user.isAdmin.toString()
-      ) {
-        res.status(401);
-        throw new Error('Not authorized, attack detected');
-      }
-      */
-
+      req.user = await User.findById(req.session.user._id).select('-password');
       next();
     } catch (error) {
       console.error(error);
       res.status(401);
-      throw new Error('Not authorized, token failed');
+      throw new Error('Not authorized!');
     }
-  }
-
-  if (!token) {
-    res.status(401);
-    throw new Error('Not authorized, no token');
   }
 });
 
@@ -49,7 +26,7 @@ const admin = (req, res, next) => {
     next();
   } else {
     res.status(401);
-    throw new Error('Not authorized as an admin');
+    throw new Error('Not authorized!');
   }
 };
 

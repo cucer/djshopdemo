@@ -7,7 +7,7 @@ import Message from '../../components/main/Message';
 import Loader from '../../components/main/Loader';
 import {
   getUserDetails,
-  // updateUserProfile,
+  updateUserProfile,
 } from '../../redux/actions/userActions';
 import { listMyOrders } from '../../redux/actions/orderActions';
 import { USER_UPDATE_PROFILE_RESET } from '../../redux/constants/userConstants';
@@ -55,8 +55,8 @@ const ProfileScreen = () => {
     if (password !== confirmPassword) {
       setMessage('Password do not match!');
     } else {
-      alert('You have to implement your own method!');
-      // dispatch(updateUserProfile({ id: user._id, name, email, password }));
+      // alert('You have to implement your own method!');
+      dispatch(updateUserProfile({ id: user._id, name, email, password }));
     }
   };
 

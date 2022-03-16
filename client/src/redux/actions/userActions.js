@@ -50,8 +50,6 @@ export const login = (email, password) => async (dispatch) => {
       type: USER_LOGIN_SUCCESS,
       payload: data,
     });
-
-    localStorage.setItem('userInfo', JSON.stringify(data));
   } catch (error) {
     dispatch({
       type: USER_LOGIN_FAIL,
@@ -63,8 +61,7 @@ export const login = (email, password) => async (dispatch) => {
   }
 };
 
-export const logout = () => (dispatch) => {
-  localStorage.removeItem('userInfo');
+export const logout = () => async (dispatch) => {
   localStorage.removeItem('cartItems');
   localStorage.removeItem('shippingAddress');
   localStorage.removeItem('paymentMethod');
@@ -72,6 +69,10 @@ export const logout = () => (dispatch) => {
   dispatch({ type: USER_DETAILS_RESET });
   dispatch({ type: ORDER_LIST_MY_RESET });
   dispatch({ type: USER_LIST_RESET });
+
+  // Route&Method for backend route
+  await axios.post('/api/users/logout');
+
   document.location.href = '/';
 };
 
@@ -105,8 +106,6 @@ export const register = (name, email, password) => async (dispatch) => {
       type: USER_LOGIN_SUCCESS,
       payload: data,
     });
-
-    localStorage.setItem('userInfo', JSON.stringify(data));
   } catch (error) {
     dispatch({
       type: USER_REGISTER_FAIL,
@@ -118,26 +117,14 @@ export const register = (name, email, password) => async (dispatch) => {
   }
 };
 
-export const listUsers = () => async (dispatch, getState) => {
+export const listUsers = () => async (dispatch) => {
   try {
     dispatch({
       type: USER_LIST_REQUEST,
     });
 
-    // Get user info from userLogin reducer
-    const {
-      userLogin: { userInfo },
-    } = getState();
-
-    // Set token for backend authMiddleware
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
-
     // Route&Method for backend route
-    const { data } = await axios.get('/api/users', config);
+    const { data } = await axios.get('/api/users');
 
     dispatch({
       type: USER_LIST_SUCCESS,
@@ -148,12 +135,7 @@ export const listUsers = () => async (dispatch, getState) => {
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-    console.log('message', message);
-    if (
-      message === 'Not authorized, token failed' ||
-      message === 'Not authorized, no token' ||
-      message === 'Not authorized as an admin'
-    ) {
+    if (message === 'Not authorized!') {
       dispatch(logout());
     }
     dispatch({
@@ -163,26 +145,14 @@ export const listUsers = () => async (dispatch, getState) => {
   }
 };
 
-export const deleteUser = (id) => async (dispatch, getState) => {
+export const deleteUser = (id) => async (dispatch) => {
   try {
     dispatch({
       type: USER_DELETE_REQUEST,
     });
 
-    // Get user info from userLogin reducer
-    const {
-      userLogin: { userInfo },
-    } = getState();
-
-    // Set token for backend authMiddleware
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
-
     // Route&Method for backend route
-    await axios.delete(`/api/users/${id}`, config);
+    await axios.delete(`/api/users/${id}`);
 
     dispatch({ type: USER_DELETE_SUCCESS });
   } catch (error) {
@@ -190,11 +160,7 @@ export const deleteUser = (id) => async (dispatch, getState) => {
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-    if (
-      message === 'Not authorized, token failed' ||
-      message === 'Not authorized, no token' ||
-      message === 'Not authorized as an admin'
-    ) {
+    if (message === 'Not authorized!') {
       dispatch(logout());
     }
     dispatch({
@@ -204,27 +170,15 @@ export const deleteUser = (id) => async (dispatch, getState) => {
   }
 };
 
-export const getUserDetails = (id) => async (dispatch, getState) => {
+export const getUserDetails = (id) => async (dispatch) => {
   try {
     dispatch({
       type: USER_DETAILS_REQUEST,
     });
 
-    // Get user info from userLogin reducer
-    const {
-      userLogin: { userInfo },
-    } = getState();
-
-    // Set token for backend authMiddleware
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
-
     // Route&Method for backend route
     const path = id === 'profile' ? '/api/users/profile' : `/api/users/${id}`;
-    const { data } = await axios.get(path, config);
+    const { data } = await axios.get(path);
     // const { data } = await axios.get(`/api/users/${id}`, config);
 
     dispatch({
@@ -236,11 +190,7 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-    if (
-      message === 'Not authorized, token failed' ||
-      message === 'Not authorized, no token' ||
-      message === 'Not authorized as an admin'
-    ) {
+    if (message === 'Not authorized!') {
       dispatch(logout());
     }
     dispatch({
@@ -250,22 +200,15 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
   }
 };
 
-export const updateUser = (user) => async (dispatch, getState) => {
+export const updateUser = (user) => async (dispatch) => {
   try {
     dispatch({
       type: USER_UPDATE_REQUEST,
     });
 
-    // Get user info from userLogin reducer
-    const {
-      userLogin: { userInfo },
-    } = getState();
-
-    // Set token for backend authMiddleware
     const config = {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${userInfo.token}`,
       },
     };
 
@@ -273,7 +216,6 @@ export const updateUser = (user) => async (dispatch, getState) => {
     const { data } = await axios.put(`/api/users/${user._id}`, user, config);
 
     dispatch({ type: USER_UPDATE_SUCCESS });
-
     dispatch({ type: USER_DETAILS_SUCCESS, payload: data });
     dispatch({ type: USER_DETAILS_RESET });
   } catch (error) {
@@ -281,11 +223,7 @@ export const updateUser = (user) => async (dispatch, getState) => {
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-    if (
-      message === 'Not authorized, token failed' ||
-      message === 'Not authorized, no token' ||
-      message === 'Not authorized as an admin'
-    ) {
+    if (message === 'Not authorized!') {
       dispatch(logout());
     }
     dispatch({
@@ -301,16 +239,9 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
       type: USER_UPDATE_PROFILE_REQUEST,
     });
 
-    // Get user info from userLogin reducer
-    const {
-      userLogin: { userInfo },
-    } = getState();
-
-    // Set token for backend authMiddleware
     const config = {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${userInfo.token}`,
       },
     };
 
@@ -322,23 +253,17 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
       payload: data,
     });
 
-    // We have to login and then we should set localstorage
+    // We have to login
     dispatch({
       type: USER_LOGIN_SUCCESS,
       payload: data,
     });
-
-    localStorage.setItem('userInfo', JSON.stringify(data));
   } catch (error) {
     const message =
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-    if (
-      message === 'Not authorized, token failed' ||
-      message === 'Not authorized, no token' ||
-      message === 'Not authorized as an admin'
-    ) {
+    if (message === 'Not authorized!') {
       dispatch(logout());
     }
     dispatch({

@@ -11,7 +11,10 @@ router
   .get(auth.protect, auth.admin, userController.getUsers);
 
 // "/api/users/login"
-router.post('/login', userController.authUser);
+router.post('/login', userController.loginUser);
+
+// "/api/users/login"
+router.post('/logout', userController.logoutUser);
 
 // "api/users/profile"
 router

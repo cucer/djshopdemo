@@ -6,11 +6,11 @@ export const PrivateRoute = ({ component: RouteComponent }) => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  const isAuthenticated = userInfo && userInfo.token ? true : false;
+  const isAuthenticated = userInfo && userInfo.isAuthenticated ? true : false;
 
   if (isAuthenticated) {
     return <RouteComponent />;
   }
 
-  return <Navigate to="/404" />;
+  return <Navigate to="/" />; // Login again
 };

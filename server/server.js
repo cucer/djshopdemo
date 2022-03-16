@@ -9,6 +9,8 @@ const express = require('express'),
   productRoutes = require('./routes/productRoutes'),
   uploadRoutes = require('./routes/uploadRoutes'),
   orderRoutes = require('./routes/orderRoutes'),
+  session = require('express-session'),
+  MongoDBStore = require('connect-mongodb-session')(session),
   errorMiddleware = require('./middleware/errorMiddleware');
 
 dotenv.config();
@@ -16,6 +18,12 @@ dotenv.config();
 connectDB();
 
 const app = express();
+const store = new MongoDBStore({
+  uri: process.env.MONGO_URI,
+  collection: 'sessions',
+  expires: 1000 * 60 * 60 * 24 * 7, // (7 = 7 days = 1 week)
+  // cookie: {}, // we can define cookie, middleware automatically set cookies
+});
 
 app.use(express.json());
 
@@ -23,7 +31,16 @@ if (process.env.NODE_ENV === 'DEV') {
   app.use(morgan('dev'));
 }
 
-// These paths come from redux actions
+app.use(
+  session({
+    secret: '*29.who7!!/<)wanT3tO0be!aMi)lli!on@rE5,',
+    resave: false, // just save when session change
+    saveUninitialized: false,
+    store: store,
+  })
+);
+
+// Routes
 app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/upload', uploadRoutes);

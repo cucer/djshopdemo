@@ -5,10 +5,7 @@ import { Button, Form } from 'react-bootstrap';
 import Message from '../../components/main/Message';
 import Loader from '../../components/main/Loader';
 import FormContainer from '../../components/main/FormContainer';
-import {
-  getUserDetails,
-  // updateUser
-} from '../../redux/actions/userActions';
+import { getUserDetails, updateUser } from '../../redux/actions/userActions';
 import { USER_UPDATE_RESET } from '../../redux/constants/userConstants';
 
 const UserEditScreen = () => {
@@ -57,8 +54,8 @@ const UserEditScreen = () => {
   // Methods
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert('You have to implement your own method!');
-    // dispatch(updateUser({ _id: userId, name, email, isAdmin }));
+    // alert('You have to implement your own method!');
+    dispatch(updateUser({ _id: userId, name, email, isAdmin }));
   };
 
   const handleNameChange = (e) => {

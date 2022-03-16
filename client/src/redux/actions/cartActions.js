@@ -7,20 +7,8 @@ import {
 } from '../constants/cartConstants';
 
 export const addToCart = (id, qty) => async (dispatch, getState) => {
-  // Get user info from userLogin reducer
-  const {
-    userLogin: { userInfo },
-  } = getState();
-
-  // Set token for backend authMiddleware
-  const config = {
-    headers: {
-      Authorization: `Bearer ${userInfo.token}`,
-    },
-  };
-
   // Route&Method for backend route
-  const { data } = await axios.get(`/api/products/${id}`, config);
+  const { data } = await axios.get(`/api/products/${id}`);
 
   dispatch({
     type: CART_ADD_ITEM,

@@ -73,6 +73,7 @@ const App = () => {
           <Container>
             <Routes>
               <Route path="*" element={<NotFoundScreen />} />
+              <Route path="/404" element={<NotFoundScreen />} />
               <Route path="/" element={<LoginScreen />} />
               <Route path="/register" element={<RegisterScreen />} />
               {/* Private Routes */}

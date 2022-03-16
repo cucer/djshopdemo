@@ -22,22 +22,15 @@ import {
 import { CART_CLEAR_ITEMS } from '../constants/cartConstants';
 import { logout } from './userActions';
 
-export const createOrder = (order) => async (dispatch, getState) => {
+export const createOrder = (order) => async (dispatch) => {
   try {
     dispatch({
       type: ORDER_CREATE_REQUEST,
     });
 
-    // Get user info from userLogin reducer
-    const {
-      userLogin: { userInfo },
-    } = getState();
-
-    // Set token for backend authMiddleware
     const config = {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${userInfo.token}`,
       },
     };
 
@@ -59,11 +52,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-    if (
-      message === 'Not authorized, token failed' ||
-      message === 'Not authorized, no token' ||
-      message === 'Not authorized as an admin'
-    ) {
+    if (message === 'Not authorized!') {
       dispatch(logout());
     }
     dispatch({
@@ -73,26 +62,14 @@ export const createOrder = (order) => async (dispatch, getState) => {
   }
 };
 
-export const getOrderDetails = (id) => async (dispatch, getState) => {
+export const getOrderDetails = (id) => async (dispatch) => {
   try {
     dispatch({
       type: ORDER_DETAILS_REQUEST,
     });
 
-    // Get user info from userLogin reducer
-    const {
-      userLogin: { userInfo },
-    } = getState();
-
-    // Set token for backend authMiddleware
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
-
     // Route&Method for backend route
-    const { data } = await axios.get(`/api/orders/${id}`, config);
+    const { data } = await axios.get(`/api/orders/${id}`);
 
     dispatch({
       type: ORDER_DETAILS_SUCCESS,
@@ -103,11 +80,7 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-    if (
-      message === 'Not authorized, token failed' ||
-      message === 'Not authorized, no token' ||
-      message === 'Not authorized as an admin'
-    ) {
+    if (message === 'Not authorized!') {
       dispatch(logout());
     }
     dispatch({
@@ -117,80 +90,52 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
   }
 };
 
-export const payOrder =
-  (orderId, paymentResult) => async (dispatch, getState) => {
-    try {
-      dispatch({
-        type: ORDER_PAY_REQUEST,
-      });
-
-      // Get user info from userLogin reducer
-      const {
-        userLogin: { userInfo },
-      } = getState();
-
-      // Set token for backend authMiddleware
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${userInfo.token}`,
-        },
-      };
-
-      // Route&Method for backend route
-      const { data } = await axios.put(
-        `/api/orders/${orderId}/pay`,
-        paymentResult,
-        config
-      );
-
-      dispatch({
-        type: ORDER_PAY_SUCCESS,
-        payload: data,
-      });
-    } catch (error) {
-      const message =
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message;
-      if (
-        message === 'Not authorized, token failed' ||
-        message === 'Not authorized, no token' ||
-        message === 'Not authorized as an admin'
-      ) {
-        dispatch(logout());
-      }
-      dispatch({
-        type: ORDER_PAY_FAIL,
-        payload: message,
-      });
-    }
-  };
-
-export const deliverOrder = (order) => async (dispatch, getState) => {
+export const payOrder = (orderId, paymentResult) => async (dispatch) => {
   try {
     dispatch({
-      type: ORDER_DELIVER_REQUEST,
+      type: ORDER_PAY_REQUEST,
     });
 
-    // Get user info from userLogin reducer
-    const {
-      userLogin: { userInfo },
-    } = getState();
-
-    // Set token for backend authMiddleware
     const config = {
       headers: {
-        Authorization: `Bearer ${userInfo.token}`,
+        'Content-Type': 'application/json',
       },
     };
 
     // Route&Method for backend route
     const { data } = await axios.put(
-      `/api/orders/${order._id}/deliver`,
-      {},
+      `/api/orders/${orderId}/pay`,
+      paymentResult,
       config
     );
+
+    dispatch({
+      type: ORDER_PAY_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    if (message === 'Not authorized!') {
+      dispatch(logout());
+    }
+    dispatch({
+      type: ORDER_PAY_FAIL,
+      payload: message,
+    });
+  }
+};
+
+export const deliverOrder = (order) => async (dispatch) => {
+  try {
+    dispatch({
+      type: ORDER_DELIVER_REQUEST,
+    });
+
+    // Route&Method for backend route
+    const { data } = await axios.put(`/api/orders/${order._id}/deliver`, {});
 
     dispatch({
       type: ORDER_DELIVER_SUCCESS,
@@ -201,11 +146,7 @@ export const deliverOrder = (order) => async (dispatch, getState) => {
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-    if (
-      message === 'Not authorized, token failed' ||
-      message === 'Not authorized, no token' ||
-      message === 'Not authorized as an admin'
-    ) {
+    if (message === 'Not authorized!') {
       dispatch(logout());
     }
     dispatch({
@@ -215,26 +156,14 @@ export const deliverOrder = (order) => async (dispatch, getState) => {
   }
 };
 
-export const listMyOrders = () => async (dispatch, getState) => {
+export const listMyOrders = () => async (dispatch) => {
   try {
     dispatch({
       type: ORDER_LIST_MY_REQUEST,
     });
 
-    // Get user info from userLogin reducer
-    const {
-      userLogin: { userInfo },
-    } = getState();
-
-    // Set token for backend authMiddleware
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
-
     // Route&Method for backend route
-    const { data } = await axios.get(`/api/orders/myorders`, config);
+    const { data } = await axios.get(`/api/orders/myorders`);
 
     dispatch({
       type: ORDER_LIST_MY_SUCCESS,
@@ -245,11 +174,7 @@ export const listMyOrders = () => async (dispatch, getState) => {
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-    if (
-      message === 'Not authorized, token failed' ||
-      message === 'Not authorized, no token' ||
-      message === 'Not authorized as an admin'
-    ) {
+    if (message === 'Not authorized!') {
       dispatch(logout());
     }
     dispatch({
@@ -259,26 +184,14 @@ export const listMyOrders = () => async (dispatch, getState) => {
   }
 };
 
-export const listOrders = () => async (dispatch, getState) => {
+export const listOrders = () => async (dispatch) => {
   try {
     dispatch({
       type: ORDER_LIST_REQUEST,
     });
 
-    // Get user info from userLogin reducer
-    const {
-      userLogin: { userInfo },
-    } = getState();
-
-    // Set token for backend authMiddleware
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
-
     // Route&Method for backend route
-    const { data } = await axios.get(`/api/orders`, config);
+    const { data } = await axios.get(`/api/orders`);
 
     dispatch({
       type: ORDER_LIST_SUCCESS,
@@ -289,11 +202,7 @@ export const listOrders = () => async (dispatch, getState) => {
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-    if (
-      message === 'Not authorized, token failed' ||
-      message === 'Not authorized, no token' ||
-      message === 'Not authorized as an admin'
-    ) {
+    if (message === 'Not authorized!') {
       dispatch(logout());
     }
     dispatch({

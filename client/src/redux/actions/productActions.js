@@ -25,26 +25,14 @@ import {
 } from '../constants/productConstants';
 import { logout } from './userActions';
 
-export const createProduct = (product) => async (dispatch, getState) => {
+export const createProduct = (product) => async (dispatch) => {
   try {
     dispatch({
       type: PRODUCT_CREATE_REQUEST,
     });
 
-    // Get user info from userLogin reducer
-    const {
-      userLogin: { userInfo },
-    } = getState();
-
-    // Set token for backend authMiddleware
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
-
     // Route&Method for backend route
-    const { data } = await axios.post(`/api/products`, product, config);
+    const { data } = await axios.post(`/api/products`, product);
 
     dispatch({
       type: PRODUCT_CREATE_SUCCESS,
@@ -55,11 +43,7 @@ export const createProduct = (product) => async (dispatch, getState) => {
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-    if (
-      message === 'Not authorized, token failed' ||
-      message === 'Not authorized, no token' ||
-      message === 'Not authorized as an admin'
-    ) {
+    if (message === 'Not authorized!') {
       dispatch(logout());
     }
     dispatch({
@@ -72,27 +56,13 @@ export const createProduct = (product) => async (dispatch, getState) => {
 // We use this action in header and product list. Keyword for header search box
 export const listProducts =
   (keyword = '', pageNumber = '') =>
-  async (dispatch, getState) => {
+  async (dispatch) => {
     try {
       dispatch({ type: PRODUCT_LIST_REQUEST });
 
-      // Get user info from userLogin reducer
-      const {
-        userLogin: { userInfo },
-      } = getState();
-
-      // Set token for backend authMiddleware
-      const config = {
-        headers: {
-          Authorization: `Bearer ${userInfo.token}`,
-          // IsAdminXSS: userInfo.isAdmin, // TEST PURPOSE
-        },
-      };
-
       // Route&Method for backend route
       const { data } = await axios.get(
-        `/api/products?keyword=${keyword}&pageNumber=${pageNumber}`,
-        config
+        `/api/products?keyword=${keyword}&pageNumber=${pageNumber}`
       );
 
       dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
@@ -101,11 +71,7 @@ export const listProducts =
         error.response && error.response.data.message
           ? error.response.data.message
           : error.message;
-      if (
-        message === 'Not authorized, token failed' ||
-        message === 'Not authorized, no token' ||
-        message === 'Not authorized as an admin'
-      ) {
+      if (message === 'Not authorized!') {
         dispatch(logout());
       }
       dispatch({
@@ -115,26 +81,14 @@ export const listProducts =
     }
   };
 
-export const deleteProduct = (id) => async (dispatch, getState) => {
+export const deleteProduct = (id) => async (dispatch) => {
   try {
     dispatch({
       type: PRODUCT_DELETE_REQUEST,
     });
 
-    // Get user info from userLogin reducer
-    const {
-      userLogin: { userInfo },
-    } = getState();
-
-    // Set token for backend authMiddleware
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
-
     // Route&Method for backend route
-    await axios.delete(`/api/products/${id}`, config);
+    await axios.delete(`/api/products/${id}`);
 
     dispatch({ type: PRODUCT_DELETE_SUCCESS });
   } catch (error) {
@@ -142,11 +96,7 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-    if (
-      message === 'Not authorized, token failed' ||
-      message === 'Not authorized, no token' ||
-      message === 'Not authorized as an admin'
-    ) {
+    if (message === 'Not authorized!') {
       dispatch(logout());
     }
     dispatch({
@@ -156,24 +106,12 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
   }
 };
 
-export const listProductDetails = (id) => async (dispatch, getState) => {
+export const listProductDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_DETAILS_REQUEST });
 
-    // Get user info from userLogin reducer
-    const {
-      userLogin: { userInfo },
-    } = getState();
-
-    // Set token for backend authMiddleware
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
-
     // Route&Method for backend route
-    const { data } = await axios.get(`/api/products/${id}`, config);
+    const { data } = await axios.get(`/api/products/${id}`);
 
     dispatch({ type: PRODUCT_DETAILS_SUCCESS, payload: data });
   } catch (error) {
@@ -181,11 +119,7 @@ export const listProductDetails = (id) => async (dispatch, getState) => {
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-    if (
-      message === 'Not authorized, token failed' ||
-      message === 'Not authorized, no token' ||
-      message === 'Not authorized as an admin'
-    ) {
+    if (message === 'Not authorized!') {
       dispatch(logout());
     }
     dispatch({
@@ -195,22 +129,15 @@ export const listProductDetails = (id) => async (dispatch, getState) => {
   }
 };
 
-export const updateProduct = (product) => async (dispatch, getState) => {
+export const updateProduct = (product) => async (dispatch) => {
   try {
     dispatch({
       type: PRODUCT_UPDATE_REQUEST,
     });
 
-    // Get user info from userLogin reducer
-    const {
-      userLogin: { userInfo },
-    } = getState();
-
-    // Set token for backend authMiddleware
     const config = {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${userInfo.token}`,
       },
     };
 
@@ -231,11 +158,7 @@ export const updateProduct = (product) => async (dispatch, getState) => {
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-    if (
-      message === 'Not authorized, token failed' ||
-      message === 'Not authorized, no token' ||
-      message === 'Not authorized as an admin'
-    ) {
+    if (message === 'Not authorized!') {
       dispatch(logout());
     }
     dispatch({
@@ -245,68 +168,44 @@ export const updateProduct = (product) => async (dispatch, getState) => {
   }
 };
 
-export const createProductReview =
-  (productId, review) => async (dispatch, getState) => {
-    try {
-      dispatch({
-        type: PRODUCT_CREATE_REVIEW_REQUEST,
-      });
-
-      // Get user info from userLogin reducer
-      const {
-        userLogin: { userInfo },
-      } = getState();
-
-      // Set token for backend authMiddleware
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${userInfo.token}`,
-        },
-      };
-
-      // Route&Method for backend route
-      await axios.post(`/api/products/${productId}/reviews`, review, config);
-
-      dispatch({ type: PRODUCT_CREATE_REVIEW_SUCCESS });
-      dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
-    } catch (error) {
-      const message =
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message;
-      if (
-        message === 'Not authorized, token failed' ||
-        message === 'Not authorized, no token' ||
-        message === 'Not authorized as an admin'
-      ) {
-        dispatch(logout());
-      }
-      dispatch({
-        type: PRODUCT_CREATE_REVIEW_FAIL,
-        payload: message,
-      });
-    }
-  };
-
-export const listTopProducts = () => async (dispatch, getState) => {
+export const createProductReview = (productId, review) => async (dispatch) => {
   try {
-    dispatch({ type: PRODUCT_TOP_REQUEST });
+    dispatch({
+      type: PRODUCT_CREATE_REVIEW_REQUEST,
+    });
 
-    // Get user info from userLogin reducer
-    const {
-      userLogin: { userInfo },
-    } = getState();
-
-    // Set token for backend authMiddleware
     const config = {
       headers: {
-        Authorization: `Bearer ${userInfo.token}`,
+        'Content-Type': 'application/json',
       },
     };
 
     // Route&Method for backend route
-    const { data } = await axios.get('/api/products/top', config);
+    await axios.post(`/api/products/${productId}/reviews`, review, config);
+
+    dispatch({ type: PRODUCT_CREATE_REVIEW_SUCCESS });
+    dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    if (message === 'Not authorized!') {
+      dispatch(logout());
+    }
+    dispatch({
+      type: PRODUCT_CREATE_REVIEW_FAIL,
+      payload: message,
+    });
+  }
+};
+
+export const listTopProducts = () => async (dispatch) => {
+  try {
+    dispatch({ type: PRODUCT_TOP_REQUEST });
+
+    // Route&Method for backend route
+    const { data } = await axios.get('/api/products/top');
 
     dispatch({ type: PRODUCT_TOP_SUCCESS, payload: data });
   } catch (error) {
@@ -314,11 +213,7 @@ export const listTopProducts = () => async (dispatch, getState) => {
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-    if (
-      message === 'Not authorized, token failed' ||
-      message === 'Not authorized, no token' ||
-      message === 'Not authorized as an admin'
-    ) {
+    if (message === 'Not authorized!') {
       dispatch(logout());
     }
     dispatch({
