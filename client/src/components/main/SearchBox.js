@@ -26,19 +26,19 @@ const SearchBox = () => {
   };
 
   return (
-    <Form onSubmit={handleSubmit} className='d-flex'>
+    <Form onSubmit={handleSubmit} className="d-flex">
       <Form.Control
-        type='search'
+        type="search"
         onChange={handleKeywordChange}
-        placeholder='Search equipments...'
-        className='me-2'
-        size='sm'
+        placeholder="Search equipments..."
+        className="me-2"
+        size="sm"
       ></Form.Control>
       <Button
-        type='submit'
-        variant='outline-success'
-        size='sm'
-        className='me-2'
+        type="submit"
+        variant="outline-success"
+        size="sm"
+        className="me-2"
       >
         Search
       </Button>

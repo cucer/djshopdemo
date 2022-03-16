@@ -1,5 +1,5 @@
-import { useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 
 export const AdminRoute = ({ component: RouteComponent }) => {
   // Redux
@@ -13,5 +13,5 @@ export const AdminRoute = ({ component: RouteComponent }) => {
     return <RouteComponent />;
   }
 
-  return <Navigate to='/404' />;
+  return <Navigate to="/404" />;
 };

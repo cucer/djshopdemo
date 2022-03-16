@@ -1,9 +1,9 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { LinkContainer } from "react-router-bootstrap";
-import { Container, Navbar, Nav, NavDropdown } from "react-bootstrap";
-import { logout } from "../../redux/actions/userActions";
-import SearchBox from "./SearchBox";
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { LinkContainer } from 'react-router-bootstrap';
+import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import { logout } from '../../redux/actions/userActions';
+import SearchBox from './SearchBox';
 
 const Header = () => {
   // Redux
@@ -19,49 +19,49 @@ const Header = () => {
 
   return (
     <header>
-      <Navbar bg='dark' variant='dark' expand='lg' collapseOnSelect id='navbar'>
+      <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect id="navbar">
         <Container>
-          <LinkContainer to={userInfo ? "/home" : "/"}>
+          <LinkContainer to={userInfo ? '/home' : '/'}>
             <Navbar.Brand>
               DJ Shop
-              <span className='text-info mx-2'>DEMO</span>
+              <span className="text-info mx-2">DEMO</span>
             </Navbar.Brand>
           </LinkContainer>
 
           <Navbar.Toggle
-            aria-controls='basic-navbar-nav'
-            className='my-2 mx-2'
+            aria-controls="basic-navbar-nav"
+            className="my-2 mx-2"
           />
           <Navbar.Collapse
-            id='basic-navbar-nav'
-            className='justify-content-end'
+            id="basic-navbar-nav"
+            className="justify-content-end"
           >
             {userInfo && <SearchBox />}
-            <Nav className='ml-auto'>
+            <Nav className="ml-auto">
               {userInfo && userInfo.isAdmin && (
-                <NavDropdown title='Admin Panel' id='adminmenu'>
-                  <LinkContainer to='/admin/userlist'>
+                <NavDropdown title="Admin Panel" id="adminmenu">
+                  <LinkContainer to="/admin/userlist">
                     <NavDropdown.Item>Users</NavDropdown.Item>
                   </LinkContainer>
-                  <LinkContainer to='/admin/productlist'>
+                  <LinkContainer to="/admin/productlist">
                     <NavDropdown.Item>Products</NavDropdown.Item>
                   </LinkContainer>
-                  <LinkContainer to='/admin/orderlist'>
+                  <LinkContainer to="/admin/orderlist">
                     <NavDropdown.Item>Orders</NavDropdown.Item>
                   </LinkContainer>
                 </NavDropdown>
               )}
 
               {userInfo && (
-                <LinkContainer to='/cart'>
+                <LinkContainer to="/cart">
                   <Nav.Link>
-                    <i className='fas fa-shopping-cart px-1'></i>Cart
+                    <i className="fas fa-shopping-cart px-1"></i>Cart
                   </Nav.Link>
                 </LinkContainer>
               )}
               {userInfo ? (
-                <NavDropdown title={userInfo.name} id='username'>
-                  <LinkContainer to='/profile'>
+                <NavDropdown title={userInfo.name} id="username">
+                  <LinkContainer to="/profile">
                     <NavDropdown.Item>Profile</NavDropdown.Item>
                   </LinkContainer>
                   <NavDropdown.Item onClick={handleLogout}>
@@ -69,9 +69,9 @@ const Header = () => {
                   </NavDropdown.Item>
                 </NavDropdown>
               ) : (
-                <LinkContainer to='/'>
+                <LinkContainer to="/">
                   <Nav.Link>
-                    <i className='fas fa-user px-1'></i>Sign In
+                    <i className="fas fa-user px-1"></i>Sign In
                   </Nav.Link>
                 </LinkContainer>
               )}

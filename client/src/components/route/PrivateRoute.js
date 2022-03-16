@@ -1,5 +1,5 @@
-import { useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 
 export const PrivateRoute = ({ component: RouteComponent }) => {
   // Redux
@@ -12,5 +12,5 @@ export const PrivateRoute = ({ component: RouteComponent }) => {
     return <RouteComponent />;
   }
 
-  return <Navigate to='/404' />;
+  return <Navigate to="/404" />;
 };

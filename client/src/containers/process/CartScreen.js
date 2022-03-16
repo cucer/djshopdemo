@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-import { useNavigate, useLocation, useParams, Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect } from 'react';
+import { useNavigate, useLocation, useParams, Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Row,
   Col,
@@ -9,9 +9,9 @@ import {
   Card,
   Button,
   Form,
-} from "react-bootstrap";
-import Message from "../../components/main/Message";
-import { addToCart, removeFromCart } from "../../redux/actions/cartActions";
+} from 'react-bootstrap';
+import Message from '../../components/main/Message';
+import { addToCart, removeFromCart } from '../../redux/actions/cartActions';
 
 const CartScreen = () => {
   // Redux
@@ -27,7 +27,7 @@ const CartScreen = () => {
   let location = useLocation();
   const productId = params.id;
 
-  const qty = location.search ? Number(location.search.split("=")[1]) : 1;
+  const qty = location.search ? Number(location.search.split('=')[1]) : 1;
 
   // Methods
   const handleRemoveFromCart = (id) => {
@@ -35,12 +35,12 @@ const CartScreen = () => {
   };
 
   const handleCheckout = () => {
-    navigate("/shipping");
+    navigate('/shipping');
   };
 
   useEffect(() => {
     if (!userInfo) {
-      navigate("/");
+      navigate('/');
     } else {
       if (productId) {
         dispatch(addToCart(productId, qty));
@@ -51,18 +51,18 @@ const CartScreen = () => {
   return (
     <Row>
       <Col md={12}>
-        <h1 style={{ fontSize: "2.5rem" }} className='text-info'>
+        <h1 style={{ fontSize: '2.5rem' }} className="text-info">
           Shopping Cart
         </h1>
         {cartItems.length === 0 ? (
           <Message>
             Your cart is empty
-            <span className='mx-2'>
-              <Link to='/'>Go Back</Link>
+            <span className="mx-2">
+              <Link to="/">Go Back</Link>
             </span>
           </Message>
         ) : (
-          <ListGroup variant='flush'>
+          <ListGroup variant="flush">
             {cartItems.map((item) => (
               <ListGroup.Item key={item.product}>
                 <Row>
@@ -77,9 +77,9 @@ const CartScreen = () => {
                   </Col>
                   <Col md={2} lg={1}>
                     <Form.Control
-                      as='select'
-                      size='sm'
-                      className='bg-primary'
+                      as="select"
+                      size="sm"
+                      className="bg-primary"
                       value={item.qty}
                       onChange={(e) =>
                         dispatch(
@@ -96,12 +96,12 @@ const CartScreen = () => {
                   </Col>
                   <Col md={2} lg={1}>
                     <Button
-                      type='button'
-                      variant='light'
-                      size='sm'
+                      type="button"
+                      variant="light"
+                      size="sm"
                       onClick={() => handleRemoveFromCart(item.product)}
                     >
-                      <i className='fas fa-trash'></i>
+                      <i className="fas fa-trash"></i>
                     </Button>
                   </Col>
                 </Row>
@@ -110,15 +110,15 @@ const CartScreen = () => {
           </ListGroup>
         )}
       </Col>
-      <Col md={12} className='mt-4'>
+      <Col md={12} className="mt-4">
         <Card>
-          <ListGroup variant='flush'>
+          <ListGroup variant="flush">
             <ListGroup.Item>
-              <h4 style={{ fontSize: "1.25rem" }} className='text-info'>
+              <h4 style={{ fontSize: '1.25rem' }} className="text-info">
                 Subtotal ({cartItems.reduce((acc, item) => acc + item.qty, 0)})
                 items
               </h4>
-              <span className='text-success'>
+              <span className="text-success">
                 $
                 {cartItems
                   .reduce((acc, item) => acc + item.qty * item.price, 0)
@@ -127,9 +127,9 @@ const CartScreen = () => {
             </ListGroup.Item>
             <ListGroup.Item>
               <Button
-                type='button'
-                className='btn-block btn-info'
-                size='sm'
+                type="button"
+                className="btn-block btn-info"
+                size="sm"
                 disabled={cartItems.length === 0}
                 onClick={handleCheckout}
               >

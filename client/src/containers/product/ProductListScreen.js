@@ -1,15 +1,15 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
-import { LinkContainer } from "react-router-bootstrap";
-import { Table, Button, Row, Col, Container } from "react-bootstrap";
-import Message from "../../components/main/Message";
-import Loader from "../../components/main/Loader";
-import Paginate from "../../components/main/Paginate";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import { LinkContainer } from 'react-router-bootstrap';
+import { Table, Button, Row, Col, Container } from 'react-bootstrap';
+import Message from '../../components/main/Message';
+import Loader from '../../components/main/Loader';
+import Paginate from '../../components/main/Paginate';
 import {
   listProducts,
   deleteProduct,
-} from "../../redux/actions/productActions";
+} from '../../redux/actions/productActions';
 
 const ProductListScreen = () => {
   // Redux
@@ -32,19 +32,19 @@ const ProductListScreen = () => {
 
   useEffect(() => {
     if (!userInfo) {
-      navigate("/");
+      navigate('/');
     } else {
-      dispatch(listProducts("", pageNumber)); // first parameter "" for keyword but it is not necessary in admin page, second one is for pagination
+      dispatch(listProducts('', pageNumber)); // first parameter "" for keyword but it is not necessary in admin page, second one is for pagination
     }
   }, [dispatch, navigate, userInfo, pageNumber, successDelete]);
 
   // Methods
   const handleProductCrete = () => {
-    navigate("/admin/product/create");
+    navigate('/admin/product/create');
   };
 
   const handleDelete = (id) => {
-    if (window.confirm("Are you sure?")) {
+    if (window.confirm('Are you sure?')) {
       dispatch(deleteProduct(id));
     }
   };
@@ -52,35 +52,35 @@ const ProductListScreen = () => {
   return (
     <>
       <Container>
-        <Row className='align-items-center'>
+        <Row className="align-items-center">
           <Col sm={9}>
-            <h1 style={{ fontSize: "2.5rem" }} className='text-info'>
+            <h1 style={{ fontSize: '2.5rem' }} className="text-info">
               Products
             </h1>
           </Col>
-          <Col sm={3} className='text-right'>
+          <Col sm={3} className="text-right">
             <Button
-              className='my-3 btn-info'
-              size='sm'
+              className="my-3 btn-info"
+              size="sm"
               onClick={handleProductCrete}
             >
-              <i className='fas fa-plus'></i> Create Product
+              <i className="fas fa-plus"></i> Create Product
             </Button>
           </Col>
         </Row>
       </Container>
-      {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
+      {errorDelete && <Message variant="danger">{errorDelete}</Message>}
       {loadingDelete && <Loader />}
 
       {loading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{error}</Message>
+        <Message variant="danger">{error}</Message>
       ) : (
         <>
-          <Table striped bordered hover responsive className='table-sm'>
+          <Table striped bordered hover responsive className="table-sm">
             <thead>
-              <tr className='text-primary'>
+              <tr className="text-primary">
                 {/* <th>ID</th> */}
                 <th>NAME</th>
                 <th>PRICE</th>
@@ -91,7 +91,7 @@ const ProductListScreen = () => {
             </thead>
             <tbody>
               {products.map((product) => (
-                <tr key={product._id} className='table-secondary'>
+                <tr key={product._id} className="table-secondary">
                   {/* <td>{product._id}</td> */}
                   <td>{product.name}</td>
                   <td>${product.price}</td>
@@ -99,16 +99,16 @@ const ProductListScreen = () => {
                   <td>{product.brand}</td>
                   <td>
                     <LinkContainer to={`/admin/product/${product._id}/edit`}>
-                      <Button variant='light' className='btn-sm'>
-                        <i className='fas fa-edit'></i>
+                      <Button variant="light" className="btn-sm">
+                        <i className="fas fa-edit"></i>
                       </Button>
                     </LinkContainer>
                     <Button
-                      variant='danger'
-                      className='btn-sm'
+                      variant="danger"
+                      className="btn-sm"
                       onClick={() => handleDelete(product._id)}
                     >
-                      <i className='fas fa-trash'></i>
+                      <i className="fas fa-trash"></i>
                     </Button>
                   </td>
                 </tr>

@@ -1,6 +1,6 @@
-const asyncHandler = require("express-async-handler");
-const generateToken = require("../utils/generateToken");
-const User = require("../models/userModel");
+const asyncHandler = require('express-async-handler');
+const generateToken = require('../utils/generateToken');
+const User = require('../models/userModel');
 
 /************************* /api/users/login **************************/
 // @desc   Auth user & get token
@@ -20,7 +20,7 @@ const authUser = asyncHandler(async (req, res) => {
     });
   } else {
     res.status(401);
-    throw new Error("Invalid email or password");
+    throw new Error('Invalid email or password');
   }
 });
 
@@ -35,7 +35,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   if (userExists) {
     res.status(400);
-    throw new Error("User already exist");
+    throw new Error('User already exist');
   }
 
   const user = await User.create({
@@ -54,7 +54,7 @@ const registerUser = asyncHandler(async (req, res) => {
     });
   } else {
     res.status(400);
-    throw new Error("Invalid user data");
+    throw new Error('Invalid user data');
   }
 });
 
@@ -62,7 +62,7 @@ const registerUser = asyncHandler(async (req, res) => {
 // @route  GET /api/users
 // @access Private/Admin
 const getUsers = asyncHandler(async (req, res) => {
-  const users = await User.find({}).select("-password");
+  const users = await User.find({}).select('-password');
   res.json(users);
 });
 
@@ -75,10 +75,10 @@ const deleteUser = asyncHandler(async (req, res) => {
 
   if (user) {
     await user.remove();
-    res.json({ message: "User removed" });
+    res.json({ message: 'User removed' });
   } else {
     res.status(404);
-    throw new Error("Delete User not found");
+    throw new Error('Delete User not found');
   }
 });
 
@@ -86,13 +86,13 @@ const deleteUser = asyncHandler(async (req, res) => {
 // @route  GET /api/users/:id
 // @access Private/Admin
 const getUserById = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.params.id).select("-password");
+  const user = await User.findById(req.params.id).select('-password');
 
   if (user) {
     res.json(user);
   } else {
     res.status(404);
-    throw new Error("By Id User not found");
+    throw new Error('By Id User not found');
   }
 });
 
@@ -118,7 +118,7 @@ const updateUser = asyncHandler(async (req, res) => {
     });
   } else {
     res.status(404);
-    throw new Error("User not found");
+    throw new Error('User not found');
   }
 });
 
@@ -127,7 +127,7 @@ const updateUser = asyncHandler(async (req, res) => {
 // @route  GET /api/users/profile
 // @access Private
 const getUserProfile = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.user._id).select("-password");
+  const user = await User.findById(req.user._id).select('-password');
 
   if (user) {
     res.json({
@@ -138,7 +138,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
     });
   } else {
     res.status(404);
-    throw new Error("User not found");
+    throw new Error('User not found');
   }
 });
 
@@ -166,7 +166,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     });
   } else {
     res.status(404);
-    throw new Error("User not found");
+    throw new Error('User not found');
   }
 });
 

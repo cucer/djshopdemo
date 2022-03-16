@@ -1,6 +1,6 @@
-import { createStore, combineReducers, applyMiddleware } from "redux";
-import thunk from "redux-thunk";
-import { composeWithDevTools } from "redux-devtools-extension";
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import {
   userLoginReducer,
   userRegisterReducer,
@@ -9,7 +9,7 @@ import {
   userDetailsReducer,
   userUpdateReducer,
   userUpdateProfileReducer,
-} from "./reducers/userReducers";
+} from './reducers/userReducers';
 import {
   productCreateReducer,
   productListReducer,
@@ -18,8 +18,8 @@ import {
   productUpdateReducer,
   productReviewCreateReducer,
   productTopRatedReducer,
-} from "./reducers/productReducers";
-import { cartReducer } from "./reducers/cartReducers";
+} from './reducers/productReducers';
+import { cartReducer } from './reducers/cartReducers';
 import {
   orderCreateReducer,
   orderDetailsReducer,
@@ -27,7 +27,7 @@ import {
   orderDeliverReducer,
   orderListMyReducer,
   orderListReducer,
-} from "./reducers/orderReducers";
+} from './reducers/orderReducers';
 
 const reducer = combineReducers({
   userLogin: userLoginReducer,
@@ -53,16 +53,16 @@ const reducer = combineReducers({
   orderList: orderListReducer,
 });
 
-const userInfoFromStorage = localStorage.getItem("userInfo")
-  ? JSON.parse(localStorage.getItem("userInfo"))
+const userInfoFromStorage = localStorage.getItem('userInfo')
+  ? JSON.parse(localStorage.getItem('userInfo'))
   : null;
 
-const cartItemsFromStorage = localStorage.getItem("cartItems")
-  ? JSON.parse(localStorage.getItem("cartItems"))
+const cartItemsFromStorage = localStorage.getItem('cartItems')
+  ? JSON.parse(localStorage.getItem('cartItems'))
   : [];
 
-const shippingAddressFromStorage = localStorage.getItem("shippingAddress")
-  ? JSON.parse(localStorage.getItem("shippingAddress"))
+const shippingAddressFromStorage = localStorage.getItem('shippingAddress')
+  ? JSON.parse(localStorage.getItem('shippingAddress'))
   : {};
 
 const initialState = {

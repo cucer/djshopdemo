@@ -1,20 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react';
 // import axios from "axios";
 // import { PayPalButton } from "react-paypal-button-v2";
-import { useNavigate, useParams, Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { Row, Col, ListGroup, Image, Card, Button } from "react-bootstrap";
-import Message from "../../components/main/Message";
-import Loader from "../../components/main/Loader";
+import { useNavigate, useParams, Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap';
+import Message from '../../components/main/Message';
+import Loader from '../../components/main/Loader';
 import {
   getOrderDetails,
   // payOrder,
   deliverOrder,
-} from "../../redux/actions/orderActions";
+} from '../../redux/actions/orderActions';
 import {
   ORDER_PAY_RESET,
   ORDER_DELIVER_RESET,
-} from "../../redux/constants/orderConstants";
+} from '../../redux/constants/orderConstants';
 
 const OrderScreen = () => {
   // Redux
@@ -39,7 +39,7 @@ const OrderScreen = () => {
 
   useEffect(() => {
     if (!userInfo) {
-      navigate("/");
+      navigate('/');
     }
 
     /* PAYPAL
@@ -95,7 +95,7 @@ const OrderScreen = () => {
   }
 
   const handleSuccessPayment = (paymentResult) => {
-    alert("You have to implement your own method!");
+    alert('You have to implement your own method!');
     // dispatch(payOrder(orderId, paymentResult));
   };
 
@@ -106,65 +106,65 @@ const OrderScreen = () => {
   return loading ? (
     <Loader />
   ) : error ? (
-    <Message variant='danger'>{error}</Message>
+    <Message variant="danger">{error}</Message>
   ) : (
     <>
-      <h1 style={{ fontSize: "2.5rem" }} className='text-info'>
+      <h1 style={{ fontSize: '2.5rem' }} className="text-info">
         Order
       </h1>
       <Row>
         <Col md={8}>
-          <ListGroup variant='flush'>
+          <ListGroup variant="flush">
             <ListGroup.Item>
-              <h2 style={{ fontSize: "2rem" }} className='text-info'>
+              <h2 style={{ fontSize: '2rem' }} className="text-info">
                 Shipping
               </h2>
               <p>
-                <strong className='text-success'>Name: </strong>
+                <strong className="text-success">Name: </strong>
                 {order.user.name}
               </p>
               <p>
-                <strong className='text-success'>Email: </strong>
+                <strong className="text-success">Email: </strong>
                 <a href={`mailto:${order.user.email}`}>{order.user.email}</a>
               </p>
               <p>
-                <strong className='text-success'>Address: </strong>
-                {order.shippingAddress.address},{order.shippingAddress.city},{" "}
-                {order.shippingAddress.postalCode},{" "}
+                <strong className="text-success">Address: </strong>
+                {order.shippingAddress.address},{order.shippingAddress.city},{' '}
+                {order.shippingAddress.postalCode},{' '}
                 {order.shippingAddress.country}
               </p>
               {order.isDelivered ? (
-                <Message variant='success'>
+                <Message variant="success">
                   Delivered On {order.deliveredAt}
                 </Message>
               ) : (
-                <Message variant='danger'>Not Delivered!</Message>
+                <Message variant="danger">Not Delivered!</Message>
               )}
             </ListGroup.Item>
 
             <ListGroup.Item>
-              <h2 style={{ fontSize: "2rem" }} className='text-info'>
+              <h2 style={{ fontSize: '2rem' }} className="text-info">
                 Payment Method
               </h2>
               <p>
-                <strong className='text-success'>Method:</strong>
+                <strong className="text-success">Method:</strong>
                 {order.paymentMethod}
               </p>
               {order.isPaid ? (
-                <Message variant='success'>Paid On {order.paidAt}</Message>
+                <Message variant="success">Paid On {order.paidAt}</Message>
               ) : (
-                <Message variant='danger'>Not Paid!</Message>
+                <Message variant="danger">Not Paid!</Message>
               )}
             </ListGroup.Item>
 
             <ListGroup.Item>
-              <h2 style={{ fontSize: "2rem" }} className='text-info'>
+              <h2 style={{ fontSize: '2rem' }} className="text-info">
                 Order Items
               </h2>
               {order.orderItems.length === 0 ? (
                 <Message>Order Is Empty</Message>
               ) : (
-                <ListGroup variant='flush'>
+                <ListGroup variant="flush">
                   {order.orderItems.map((item, i) => (
                     <ListGroup.Item key={i}>
                       <Row>
@@ -194,16 +194,16 @@ const OrderScreen = () => {
         </Col>
         <Col md={4}>
           <Card>
-            <ListGroup variant='flush'>
+            <ListGroup variant="flush">
               <ListGroup.Item>
-                <h2 style={{ fontSize: "2rem" }} className='text-info'>
+                <h2 style={{ fontSize: '2rem' }} className="text-info">
                   Order Summary
                 </h2>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>
-                    <span className='text-success'>Item</span>
+                    <span className="text-success">Item</span>
                   </Col>
                   <Col>${order.itemsPrice}</Col>
                 </Row>
@@ -211,7 +211,7 @@ const OrderScreen = () => {
               <ListGroup.Item>
                 <Row>
                   <Col>
-                    <span className='text-success'>Shipping</span>
+                    <span className="text-success">Shipping</span>
                   </Col>
                   <Col>${order.shippingPrice}</Col>
                 </Row>
@@ -219,7 +219,7 @@ const OrderScreen = () => {
               <ListGroup.Item>
                 <Row>
                   <Col>
-                    <span className='text-success'>Tax</span>
+                    <span className="text-success">Tax</span>
                   </Col>
                   <Col>${order.taxPrice}</Col>
                 </Row>
@@ -227,14 +227,14 @@ const OrderScreen = () => {
               <ListGroup.Item>
                 <Row>
                   <Col>
-                    <span className='text-success'>Total</span>
+                    <span className="text-success">Total</span>
                   </Col>
                   <Col>${order.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
 
               <ListGroup.Item>
-                {error && <Message variant='danger'>{error}</Message>}
+                {error && <Message variant="danger">{error}</Message>}
               </ListGroup.Item>
 
               {/* {!order.isPaid && (
@@ -251,8 +251,8 @@ const OrderScreen = () => {
                 </ListGroup.Item>
               )} */}
               <Button
-                type='button'
-                className='btn btn-block btn-info'
+                type="button"
+                className="btn btn-block btn-info"
                 onClick={handleSuccessPayment}
               >
                 Pay Button
@@ -264,8 +264,8 @@ const OrderScreen = () => {
                 !order.isDelivered && (
                   <ListGroup.Item>
                     <Button
-                      type='button'
-                      className='btn btn-block'
+                      type="button"
+                      className="btn btn-block"
                       onClick={handleDeliver}
                     >
                       Mark As Delivered

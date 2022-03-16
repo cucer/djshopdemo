@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams, Link } from "react-router-dom";
-import { Button, Form } from "react-bootstrap";
-import Message from "../../components/main/Message";
-import Loader from "../../components/main/Loader";
-import FormContainer from "../../components/main/FormContainer";
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams, Link } from 'react-router-dom';
+import { Button, Form } from 'react-bootstrap';
+import Message from '../../components/main/Message';
+import Loader from '../../components/main/Loader';
+import FormContainer from '../../components/main/FormContainer';
 import {
   getUserDetails,
   // updateUser
-} from "../../redux/actions/userActions";
-import { USER_UPDATE_RESET } from "../../redux/constants/userConstants";
+} from '../../redux/actions/userActions';
+import { USER_UPDATE_RESET } from '../../redux/constants/userConstants';
 
 const UserEditScreen = () => {
   // Redux
@@ -26,8 +26,8 @@ const UserEditScreen = () => {
   } = userUpdate;
 
   // State
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [isAdmin, setIsAdmin] = useState(false);
 
   // Route
@@ -37,11 +37,11 @@ const UserEditScreen = () => {
 
   useEffect(() => {
     if (!userInfo || !userInfo.isAdmin) {
-      navigate("/");
+      navigate('/');
     } else {
       if (successUpdate) {
         dispatch({ type: USER_UPDATE_RESET });
-        navigate("/admin/userlist");
+        navigate('/admin/userlist');
       } else {
         if (!user.name || user._id !== userId) {
           dispatch(getUserDetails(userId));
@@ -57,7 +57,7 @@ const UserEditScreen = () => {
   // Methods
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert("You have to implement your own method!");
+    alert('You have to implement your own method!');
     // dispatch(updateUser({ _id: userId, name, email, isAdmin }));
   };
 
@@ -75,51 +75,51 @@ const UserEditScreen = () => {
 
   return (
     <>
-      <Link to='/admin/userlist' className='btn btn-outline-info my-3'>
+      <Link to="/admin/userlist" className="btn btn-outline-info my-3">
         Go Back
       </Link>
       <FormContainer>
-        <h1 style={{ fontSize: "2.5rem" }} className='text-info'>
+        <h1 style={{ fontSize: '2.5rem' }} className="text-info">
           Edit User
         </h1>
-        {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
+        {errorUpdate && <Message variant="danger">{errorUpdate}</Message>}
         {loadingUpdate && <Loader />}
 
         {loading ? (
           <Loader />
         ) : error ? (
-          <Message variant='danger'>{error}</Message>
+          <Message variant="danger">{error}</Message>
         ) : (
           <Form onSubmit={handleSubmit}>
-            <Form.Group className='mb-3' controlId='name'>
+            <Form.Group className="mb-3" controlId="name">
               <Form.Label>Name</Form.Label>
               <Form.Control
-                type='name'
-                size='sm'
-                placeholder='Enter name'
+                type="name"
+                size="sm"
+                placeholder="Enter name"
                 value={name}
                 onChange={handleNameChange}
               ></Form.Control>
             </Form.Group>
 
-            <Form.Group className='mb-3' controlId='email'>
+            <Form.Group className="mb-3" controlId="email">
               <Form.Label>Email Address</Form.Label>
               <Form.Control
-                type='email'
-                size='sm'
-                placeholder='Enter email'
+                type="email"
+                size="sm"
+                placeholder="Enter email"
                 value={email}
                 onChange={handleEmailChange}
               ></Form.Control>
             </Form.Group>
 
-            <Form.Group controlId='isadmin'>
+            <Form.Group controlId="isadmin">
               <Form.Check
-                type='checkbox'
+                type="checkbox"
                 label={
                   userInfo._id === userId
-                    ? "You can not change your own status!"
-                    : "Is Admin?"
+                    ? 'You can not change your own status!'
+                    : 'Is Admin?'
                 }
                 checked={isAdmin}
                 onChange={handleAdminChange}
@@ -128,10 +128,10 @@ const UserEditScreen = () => {
             </Form.Group>
 
             <Button
-              type='submit'
-              variant='primary'
-              className='my-2 btn btn-info'
-              size='sm'
+              type="submit"
+              variant="primary"
+              className="my-2 btn btn-info"
+              size="sm"
             >
               Update
             </Button>

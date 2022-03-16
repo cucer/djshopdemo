@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { Button, Row, Col, ListGroup, Image, Card } from "react-bootstrap";
-import Message from "../../components/main/Message";
-import CheckoutSteps from "../../components/main/CheckoutSteps";
-import { createOrder } from "../../redux/actions/orderActions";
-import { ORDER_CREATE_RESET } from "../../redux/constants/orderConstants";
-import { USER_DETAILS_RESET } from "../../redux/constants/userConstants";
+import React, { useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
+import Message from '../../components/main/Message';
+import CheckoutSteps from '../../components/main/CheckoutSteps';
+import { createOrder } from '../../redux/actions/orderActions';
+import { ORDER_CREATE_RESET } from '../../redux/constants/orderConstants';
+import { USER_DETAILS_RESET } from '../../redux/constants/userConstants';
 
 const PlaceOrderScreen = () => {
   // Redux
@@ -22,11 +22,11 @@ const PlaceOrderScreen = () => {
 
   useEffect(() => {
     if (!userInfo) {
-      navigate("/");
+      navigate('/');
     } else if (!cart.shippingAddress.address) {
-      navigate("/shipping");
+      navigate('/shipping');
     } else if (!cart.paymentMethod) {
-      navigate("/payment");
+      navigate('/payment');
     } else {
       if (success) {
         navigate(`/order/${order._id}`);
@@ -82,35 +82,35 @@ const PlaceOrderScreen = () => {
       <CheckoutSteps step1 step2 step3 />
       <Row>
         <Col md={8}>
-          <ListGroup variant='flush'>
+          <ListGroup variant="flush">
             <ListGroup.Item>
-              <h2 style={{ fontSize: "2rem" }} className='text-info'>
+              <h2 style={{ fontSize: '2rem' }} className="text-info">
                 Shipping
               </h2>
               <p>
-                <strong className='text-success'>Address: </strong>
-                {cart.shippingAddress.address},{cart.shippingAddress.city},{" "}
-                {cart.shippingAddress.postalCode},{" "}
+                <strong className="text-success">Address: </strong>
+                {cart.shippingAddress.address},{cart.shippingAddress.city},{' '}
+                {cart.shippingAddress.postalCode},{' '}
                 {cart.shippingAddress.country}
               </p>
             </ListGroup.Item>
 
             <ListGroup.Item>
-              <h2 style={{ fontSize: "2rem" }} className='text-info'>
+              <h2 style={{ fontSize: '2rem' }} className="text-info">
                 Payment Method
               </h2>
-              <strong className='text-success'>Method: </strong>
+              <strong className="text-success">Method: </strong>
               {cart.paymentMethod}
             </ListGroup.Item>
 
             <ListGroup.Item>
-              <h2 style={{ fontSize: "2rem" }} className='text-info'>
+              <h2 style={{ fontSize: '2rem' }} className="text-info">
                 Order Items
               </h2>
               {cart.cartItems.length === 0 ? (
                 <Message>Your cart Is Empty</Message>
               ) : (
-                <ListGroup variant='flush'>
+                <ListGroup variant="flush">
                   {cart.cartItems.map((item, i) => (
                     <ListGroup.Item key={i}>
                       <Row>
@@ -140,46 +140,46 @@ const PlaceOrderScreen = () => {
         </Col>
         <Col md={4}>
           <Card>
-            <ListGroup variant='flush'>
+            <ListGroup variant="flush">
               <ListGroup.Item>
-                <h2 style={{ fontSize: "2rem" }} className='text-info'>
+                <h2 style={{ fontSize: '2rem' }} className="text-info">
                   Order Summary
                 </h2>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
-                  <Col className='text-success'>Items</Col>
+                  <Col className="text-success">Items</Col>
                   <Col>${cart.itemsPrice}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
-                  <Col className='text-success'>Shipping</Col>
+                  <Col className="text-success">Shipping</Col>
                   <Col>${cart.shippingPrice}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
-                  <Col className='text-success'>Tax</Col>
+                  <Col className="text-success">Tax</Col>
                   <Col>${cart.taxPrice}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
-                  <Col className='text-success'>Total</Col>
+                  <Col className="text-success">Total</Col>
                   <Col>${cart.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
 
               <ListGroup.Item>
-                {error && <Message variant='danger'>{error}</Message>}
+                {error && <Message variant="danger">{error}</Message>}
               </ListGroup.Item>
 
               <ListGroup.Item>
                 <Button
-                  type='button'
-                  size='sm'
-                  className='btn-block btn-info'
+                  type="button"
+                  size="sm"
+                  className="btn-block btn-info"
                   disabled={cart.cartItems === 0}
                   onClick={handlePlaceOrder}
                 >
