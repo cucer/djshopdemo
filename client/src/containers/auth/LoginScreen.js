@@ -55,6 +55,7 @@ const LoginScreen = () => {
             placeholder="Enter email"
             value={inputs.email}
             onChange={setInputs}
+            required
           />
         </Form.Group>
 
@@ -67,6 +68,7 @@ const LoginScreen = () => {
             placeholder="Password"
             value={inputs.password}
             onChange={setInputs}
+            required
           />
           <Form.Text className="text-muted">
             Username: demo@demo.com Password: 123456

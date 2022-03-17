@@ -96,6 +96,7 @@ const UserEditScreen = () => {
                 placeholder="Enter name"
                 value={name}
                 onChange={handleNameChange}
+                required
               ></Form.Control>
             </Form.Group>
 
@@ -107,6 +108,7 @@ const UserEditScreen = () => {
                 placeholder="Enter email"
                 value={email}
                 onChange={handleEmailChange}
+                required
               ></Form.Control>
             </Form.Group>
 

@@ -65,6 +65,7 @@ const RegisterScreen = () => {
             placeholder="Enter name"
             value={inputs.name}
             onChange={setInputs}
+            required
           />
         </Form.Group>
 
@@ -77,6 +78,7 @@ const RegisterScreen = () => {
             placeholder="Enter email"
             value={inputs.email}
             onChange={setInputs}
+            required
           />
         </Form.Group>
 
@@ -89,6 +91,7 @@ const RegisterScreen = () => {
             placeholder="Password"
             value={inputs.password}
             onChange={setInputs}
+            required
           />
         </Form.Group>
 
@@ -101,6 +104,7 @@ const RegisterScreen = () => {
             placeholder="Confirm Password"
             value={inputs.confirmPassword}
             onChange={setInputs}
+            required
           />
         </Form.Group>
 

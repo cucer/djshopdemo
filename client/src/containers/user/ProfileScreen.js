@@ -95,6 +95,7 @@ const ProfileScreen = () => {
               placeholder="Enter name"
               value={name}
               onChange={handleNameChange}
+              required
             ></Form.Control>
           </Form.Group>
 
@@ -106,6 +107,7 @@ const ProfileScreen = () => {
               placeholder="Enter email"
               value={email}
               onChange={handleEmailChange}
+              required
             ></Form.Control>
           </Form.Group>
 
@@ -117,6 +119,7 @@ const ProfileScreen = () => {
               placeholder="Enter password"
               value={password}
               onChange={handlePasswordChange}
+              required
             ></Form.Control>
           </Form.Group>
 
@@ -128,6 +131,7 @@ const ProfileScreen = () => {
               placeholder="Confirm password"
               value={confirmPassword}
               onChange={handleConfirmPasswordChange}
+              required
             ></Form.Control>
           </Form.Group>
 

@@ -257,6 +257,7 @@ const ProductScreen = () => {
                           size="sm"
                           value={comment}
                           onChange={handleCommentChange}
+                          required
                         ></Form.Control>
                       </Form.Group>
                       <Button

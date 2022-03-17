@@ -122,7 +122,6 @@ const ProductCreateScreen = () => {
               placeholder="Enter price"
               value={inputs.price}
               onChange={setInputs}
-              required
             ></Form.Control>
           </Form.Group>
 
@@ -157,7 +156,6 @@ const ProductCreateScreen = () => {
               placeholder="Enter countInStock"
               value={inputs.countInStock}
               onChange={setInputs}
-              required
             ></Form.Control>
           </Form.Group>
 

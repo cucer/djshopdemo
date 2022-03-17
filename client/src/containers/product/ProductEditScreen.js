@@ -155,6 +155,7 @@ const ProductEditScreen = () => {
                 placeholder="Enter name"
                 value={name}
                 onChange={handleNameChange}
+                required
               ></Form.Control>
             </Form.Group>
 
@@ -166,6 +167,7 @@ const ProductEditScreen = () => {
                 placeholder="Enter price"
                 value={price}
                 onChange={handlePriceChange}
+                required
               ></Form.Control>
             </Form.Group>
 
@@ -176,6 +178,7 @@ const ProductEditScreen = () => {
                 className="bg-info btn-light"
                 type="file"
                 onChange={handleUploadFile}
+                required
               />
               {uploading && <Loader />}
             </Form.Group>
@@ -230,6 +233,7 @@ const ProductEditScreen = () => {
                 onChange={handleDescriptionChange}
                 as="textarea"
                 rows={2}
+                required
               ></Form.Control>
             </Form.Group>
 
