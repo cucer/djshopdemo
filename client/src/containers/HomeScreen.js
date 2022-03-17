@@ -9,6 +9,7 @@ import Paginate from '../components/main/Paginate';
 import Meta from '../components/main/Meta';
 import ProductCarousel from '../components/main/ProductCarousel';
 import { listProducts } from '../redux/actions/productActions';
+import { PRODUCT_LIST_RESET } from '../redux/constants/productConstants';
 
 const HomeScreen = () => {
   // Redux
@@ -31,6 +32,7 @@ const HomeScreen = () => {
     } else {
       dispatch(listProducts(keyword, pageNumber));
     }
+    return () => dispatch({ type: PRODUCT_LIST_RESET }); // for admin purpose
   }, [dispatch, navigate, userInfo, keyword, pageNumber]);
 
   return (
