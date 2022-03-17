@@ -5,11 +5,13 @@ const express = require('express'),
   colors = require('colors'),
   morgan = require('morgan'),
   path = require('path'),
+  fs = require('fs'),
   userRoutes = require('./routes/userRoutes'),
   productRoutes = require('./routes/productRoutes'),
   uploadRoutes = require('./routes/uploadRoutes'),
   orderRoutes = require('./routes/orderRoutes'),
   session = require('express-session'),
+  helmet = require('helmet'),
   MongoDBStore = require('connect-mongodb-session')(session),
   errorMiddleware = require('./middleware/errorMiddleware');
 
@@ -27,9 +29,9 @@ const store = new MongoDBStore({
 
 app.use(express.json());
 
-if (process.env.NODE_ENV === 'DEV') {
-  app.use(morgan('dev'));
-}
+// if (process.env.NODE_ENV === 'DEV') {
+//   app.use(morgan('dev'));
+// }
 
 app.use(
   session({
@@ -49,6 +51,15 @@ app.use('/api/orders', orderRoutes);
 app.get('/api/config/paypal', (req, res) =>
   res.send(process.env.PAYPAL_CLIENT_API)
 );
+
+//PROD login log
+const accessLogStream = fs.createWriteStream(
+  path.join(__dirname, 'access.log'),
+  { flags: 'a', interval: '1d' } // a = append
+);
+
+app.use(helmet()); // PROD
+app.use(morgan('combined', { stream: accessLogStream })); // PROD
 
 const dirname = path.resolve();
 app.use('/uploads', express.static(path.join(dirname, '/uploads')));
