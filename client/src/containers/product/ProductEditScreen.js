@@ -11,6 +11,10 @@ import {
   updateProduct,
 } from '../../redux/actions/productActions';
 import { PRODUCT_UPDATE_RESET } from '../../redux/constants/productConstants';
+import {
+  deleteCSRFToken,
+  getCSRFTokenPOST,
+} from '../../common/commonFunctions';
 
 const ProductEditScreen = () => {
   // Redux
@@ -78,8 +82,10 @@ const ProductEditScreen = () => {
         },
       };
 
-      // File path returns from backend
+      // Route & Method & CSRF
+      await getCSRFTokenPOST();
       const { data } = await axios.post('/api/upload', formData, config);
+      deleteCSRFToken();
 
       setImage(data);
       setUploading(false);

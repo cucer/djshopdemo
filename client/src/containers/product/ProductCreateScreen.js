@@ -9,6 +9,10 @@ import Loader from '../../components/main/Loader';
 import FormContainer from '../../components/main/FormContainer';
 import { createProduct } from '../../redux/actions/productActions';
 import { PRODUCT_CREATE_RESET } from '../../redux/constants/productConstants';
+import {
+  deleteCSRFToken,
+  getCSRFTokenPOST,
+} from '../../common/commonFunctions';
 
 const ProductCreateScreen = () => {
   // Redux
@@ -60,8 +64,10 @@ const ProductCreateScreen = () => {
         },
       };
 
-      // File path returns from backend
+      // Route & Method & CSRF
+      await getCSRFTokenPOST();
       const { data } = await axios.post('/api/upload', formData, config);
+      deleteCSRFToken();
 
       setImage(data);
       setUploading(false);

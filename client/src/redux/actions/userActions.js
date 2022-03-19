@@ -31,7 +31,7 @@ import {
   getCSRFTokenPOST,
   getCSRFTokenPUT,
   getCSRFTokenDELETE,
-} from '../common/commonFunctions';
+} from '../../common/commonFunctions';
 
 export const login = (email, password) => async (dispatch) => {
   try {

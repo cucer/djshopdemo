@@ -28,7 +28,7 @@ import {
   getCSRFTokenPOST,
   getCSRFTokenPUT,
   getCSRFTokenDELETE,
-} from '../common/commonFunctions';
+} from '../../common/commonFunctions';
 import { logout } from './userActions';
 
 export const createProduct = (product) => async (dispatch) => {

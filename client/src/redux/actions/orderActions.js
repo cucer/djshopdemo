@@ -24,7 +24,7 @@ import {
   deleteCSRFToken,
   getCSRFTokenPOST,
   getCSRFTokenPUT,
-} from '../common/commonFunctions';
+} from '../../common/commonFunctions';
 import { logout } from './userActions';
 
 export const createOrder = (order) => async (dispatch) => {
