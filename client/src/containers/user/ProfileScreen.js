@@ -119,7 +119,6 @@ const ProfileScreen = () => {
               placeholder="Enter password"
               value={password}
               onChange={handlePasswordChange}
-              required
             ></Form.Control>
           </Form.Group>
 
@@ -131,7 +130,6 @@ const ProfileScreen = () => {
               placeholder="Confirm password"
               value={confirmPassword}
               onChange={handleConfirmPasswordChange}
-              required
             ></Form.Control>
           </Form.Group>
 

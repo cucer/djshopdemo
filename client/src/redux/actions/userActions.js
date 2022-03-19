@@ -26,6 +26,12 @@ import {
   USER_UPDATE_PROFILE_FAIL,
 } from '../constants/userConstants';
 import { ORDER_LIST_MY_RESET } from '../constants/orderConstants';
+import {
+  deleteCSRFToken,
+  getCSRFTokenPOST,
+  getCSRFTokenPUT,
+  getCSRFTokenDELETE,
+} from '../common/commonFunctions';
 
 export const login = (email, password) => async (dispatch) => {
   try {
@@ -39,20 +45,21 @@ export const login = (email, password) => async (dispatch) => {
       },
     };
 
-    // Route&Method for backend route
+    // Route & Method & CSRF
+    await getCSRFTokenPOST();
     const { data } = await axios.post(
       '/api/users/login',
       { email, password },
       config
     );
-
-    // const storageData = (({ isAdmin, isAuthenticated, ...o }) => o)(data);
+    deleteCSRFToken();
 
     dispatch({
       type: USER_LOGIN_SUCCESS,
       payload: data,
     });
 
+    // const storageData = (({ isAdmin, isAuthenticated, ...o }) => o)(data);
     localStorage.setItem('userInfo', JSON.stringify(data));
   } catch (error) {
     dispatch({
@@ -66,6 +73,7 @@ export const login = (email, password) => async (dispatch) => {
 };
 
 export const logout = () => async (dispatch) => {
+  deleteCSRFToken();
   localStorage.removeItem('userInfo');
   localStorage.removeItem('cartItems');
   localStorage.removeItem('shippingAddress');
@@ -93,14 +101,14 @@ export const register = (name, email, password) => async (dispatch) => {
       },
     };
 
-    // Route&Method for backend route
+    // Route & Method & CSRF
+    await getCSRFTokenPOST();
     const { data } = await axios.post(
       '/api/users',
       { name, email, password },
       config
     );
-
-    // const storageData = (({ isAdmin, isAuthenticated, ...o }) => o)(data);
+    deleteCSRFToken();
 
     // First Step: register
     dispatch({
@@ -114,6 +122,7 @@ export const register = (name, email, password) => async (dispatch) => {
       payload: data,
     });
 
+    // const storageData = (({ isAdmin, isAuthenticated, ...o }) => o)(data);
     localStorage.setItem('userInfo', JSON.stringify(data));
   } catch (error) {
     dispatch({
@@ -160,8 +169,10 @@ export const deleteUser = (id) => async (dispatch) => {
       type: USER_DELETE_REQUEST,
     });
 
-    // Route&Method for backend route
+    // Route & Method & CSRF
+    await getCSRFTokenDELETE();
     await axios.delete(`/api/users/${id}`);
+    deleteCSRFToken();
 
     dispatch({ type: USER_DELETE_SUCCESS });
   } catch (error) {
@@ -221,8 +232,10 @@ export const updateUser = (user) => async (dispatch) => {
       },
     };
 
-    // Route&Method for backend route
+    // Route & Method & CSRF
+    await getCSRFTokenPUT();
     const { data } = await axios.put(`/api/users/${user._id}`, user, config);
+    deleteCSRFToken();
 
     dispatch({ type: USER_UPDATE_SUCCESS });
     dispatch({ type: USER_DETAILS_SUCCESS, payload: data });
@@ -254,10 +267,10 @@ export const updateUserProfile = (user) => async (dispatch) => {
       },
     };
 
-    // Route&Method for backend route
+    // Route & Method & CSRF
+    await getCSRFTokenPUT();
     const { data } = await axios.put('/api/users/profile', user, config);
-
-    // const storageData = (({ isAdmin, isAuthenticated, ...o }) => o)(data);
+    deleteCSRFToken();
 
     dispatch({
       type: USER_UPDATE_PROFILE_SUCCESS,
@@ -270,6 +283,7 @@ export const updateUserProfile = (user) => async (dispatch) => {
       payload: data,
     });
 
+    // const storageData = (({ isAdmin, isAuthenticated, ...o }) => o)(data);
     localStorage.setItem('userInfo', JSON.stringify(data));
   } catch (error) {
     const message =

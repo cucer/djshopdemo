@@ -23,6 +23,12 @@ import {
   PRODUCT_TOP_SUCCESS,
   PRODUCT_TOP_FAIL,
 } from '../constants/productConstants';
+import {
+  deleteCSRFToken,
+  getCSRFTokenPOST,
+  getCSRFTokenPUT,
+  getCSRFTokenDELETE,
+} from '../common/commonFunctions';
 import { logout } from './userActions';
 
 export const createProduct = (product) => async (dispatch) => {
@@ -31,8 +37,10 @@ export const createProduct = (product) => async (dispatch) => {
       type: PRODUCT_CREATE_REQUEST,
     });
 
-    // Route&Method for backend route
+    // Route & Method & CSRF
+    await getCSRFTokenPOST();
     const { data } = await axios.post(`/api/products`, product);
+    deleteCSRFToken();
 
     dispatch({
       type: PRODUCT_CREATE_SUCCESS,
@@ -114,8 +122,10 @@ export const deleteProduct = (id) => async (dispatch) => {
       type: PRODUCT_DELETE_REQUEST,
     });
 
-    // Route&Method for backend route
+    // Route & Method & CSRF
+    await getCSRFTokenDELETE();
     await axios.delete(`/api/products/${id}`);
+    deleteCSRFToken();
 
     dispatch({ type: PRODUCT_DELETE_SUCCESS });
   } catch (error) {
@@ -168,12 +178,14 @@ export const updateProduct = (product) => async (dispatch) => {
       },
     };
 
-    // Route&Method for backend route
+    // Route & Method & CSRF
+    await getCSRFTokenPUT();
     const { data } = await axios.put(
       `/api/products/${product._id}`,
       product,
       config
     );
+    deleteCSRFToken();
 
     dispatch({
       type: PRODUCT_UPDATE_SUCCESS,
@@ -207,8 +219,10 @@ export const createProductReview = (productId, review) => async (dispatch) => {
       },
     };
 
-    // Route&Method for backend route
+    // Route & Method & CSRF
+    await getCSRFTokenPOST();
     await axios.post(`/api/products/${productId}/reviews`, review, config);
+    deleteCSRFToken();
 
     dispatch({ type: PRODUCT_CREATE_REVIEW_SUCCESS });
     dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });

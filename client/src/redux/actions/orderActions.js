@@ -20,6 +20,11 @@ import {
   ORDER_DELIVER_FAIL,
 } from '../constants/orderConstants';
 import { CART_CLEAR_ITEMS } from '../constants/cartConstants';
+import {
+  deleteCSRFToken,
+  getCSRFTokenPOST,
+  getCSRFTokenPUT,
+} from '../common/commonFunctions';
 import { logout } from './userActions';
 
 export const createOrder = (order) => async (dispatch) => {
@@ -34,13 +39,16 @@ export const createOrder = (order) => async (dispatch) => {
       },
     };
 
-    // Route&Method for backend route
+    // Route & Method & CSRF
+    await getCSRFTokenPOST();
     const { data } = await axios.post(`/api/orders`, order, config);
+    deleteCSRFToken();
 
     dispatch({
       type: ORDER_CREATE_SUCCESS,
       payload: data,
     });
+
     dispatch({
       type: CART_CLEAR_ITEMS,
       payload: data,
@@ -102,12 +110,14 @@ export const payOrder = (orderId, paymentResult) => async (dispatch) => {
       },
     };
 
-    // Route&Method for backend route
+    // Route & Method & CSRF
+    await getCSRFTokenPUT();
     const { data } = await axios.put(
       `/api/orders/${orderId}/pay`,
       paymentResult,
       config
     );
+    deleteCSRFToken();
 
     dispatch({
       type: ORDER_PAY_SUCCESS,
@@ -134,8 +144,10 @@ export const deliverOrder = (order) => async (dispatch) => {
       type: ORDER_DELIVER_REQUEST,
     });
 
-    // Route&Method for backend route
+    // Route & Method & CSRF
+    await getCSRFTokenPUT();
     const { data } = await axios.put(`/api/orders/${order._id}/deliver`, {});
+    deleteCSRFToken();
 
     dispatch({
       type: ORDER_DELIVER_SUCCESS,
