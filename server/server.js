@@ -1,5 +1,6 @@
 // Only common JS
 const express = require('express'),
+  toobusy = require('node-toobusy'),
   dotenv = require('dotenv'),
   connectDB = require('./config/db'),
   colors = require('colors'),
@@ -38,6 +39,15 @@ const csrfProtection = csrf();
 
 /************************ MIDDLEWARE ******************************/
 app.use(express.json());
+
+// middleware which blocks requests when we're too busy
+app.use(function (req, res, next) {
+  if (toobusy()) {
+    res.send(503, "I'm busy right now, sorry.");
+  } else {
+    next();
+  }
+});
 
 app.use(
   session({
