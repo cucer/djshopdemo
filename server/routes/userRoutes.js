@@ -5,15 +5,15 @@ const auth = require('../middleware/authMiddleware');
 const router = express.Router();
 
 // "/api/users"
-router
-  .route('/')
-  .post(userController.registerUser)
-  .get(auth.protect, auth.admin, userController.getUsers);
+router.route('/').get(auth.protect, auth.admin, userController.getUsers);
+
+// "/api/users/register"
+router.post('/register', userController.registerUser);
 
 // "/api/users/login"
 router.post('/login', userController.loginUser);
 
-// "/api/users/login"
+// "/api/users/logout"
 router.post('/logout', userController.logoutUser);
 
 // "api/users/profile"

@@ -73,7 +73,6 @@ export const login = (email, password) => async (dispatch) => {
 };
 
 export const logout = () => async (dispatch) => {
-  deleteCSRFToken();
   localStorage.removeItem('userInfo');
   localStorage.removeItem('cartItems');
   localStorage.removeItem('shippingAddress');
@@ -83,10 +82,14 @@ export const logout = () => async (dispatch) => {
   dispatch({ type: ORDER_LIST_MY_RESET });
   dispatch({ type: USER_LIST_RESET });
 
+  await getCSRFTokenPOST();
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
   // Route&Method for backend route
-  await axios.post('/api/users/logout');
-
-  document.location.href = '/';
+  await axios.post('/api/users/logout', config);
 };
 
 export const register = (name, email, password) => async (dispatch) => {
@@ -104,7 +107,7 @@ export const register = (name, email, password) => async (dispatch) => {
     // Route & Method & CSRF
     await getCSRFTokenPOST();
     const { data } = await axios.post(
-      '/api/users',
+      '/api/users/register',
       { name, email, password },
       config
     );
