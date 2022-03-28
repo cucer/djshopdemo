@@ -14,6 +14,7 @@ const express = require('express'),
   session = require('express-session'),
   helmet = require('helmet'),
   csrf = require('csurf'),
+  hpp = require('hpp'),
   MongoDBStore = require('connect-mongodb-session')(session),
   errorMiddleware = require('./middleware/errorMiddleware');
 
@@ -40,7 +41,7 @@ const csrfProtection = csrf();
 /************************ MIDDLEWARE ******************************/
 app.use(express.json());
 
-// middleware which blocks requests when we're too busy
+// middleware which blocks requests when we're too busy // DoS attack
 app.use(function (req, res, next) {
   if (toobusy()) {
     res.send(503, "I'm busy right now, sorry.");
@@ -59,6 +60,8 @@ app.use(
 );
 
 app.use(csrfProtection); // it must define after session
+
+app.use(hpp()); // HTTP Parameter Pollution
 
 app.use(helmet()); // PROD purpose
 
