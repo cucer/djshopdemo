@@ -7,6 +7,7 @@ const express = require('express'),
   morgan = require('morgan'),
   path = require('path'),
   fs = require('fs'),
+  cookieParser = require('cookie-parser'),
   userRoutes = require('./routes/userRoutes'),
   productRoutes = require('./routes/productRoutes'),
   uploadRoutes = require('./routes/uploadRoutes'),
@@ -25,10 +26,13 @@ const app = express();
 const dirname = path.resolve();
 const PORT = process.env.PORT || 5000;
 const MODE = process.env.NODE_ENV;
+const week = 1000 * 60 * 60 * 24 * 7; // (7 = 7 days = 1 week)
+const hour = 3600000;
+const minute = 60000;
 const store = new MongoDBStore({
   uri: process.env.MONGO_URI,
   collection: 'sessions',
-  expires: 1000 * 60 * 60 * 24 * 7, // (7 = 7 days = 1 week)
+  expires: new Date(Date.now() + hour),
   // cookie: {}, // we can define cookie, middleware automatically set cookies
 });
 const accessLogStream = fs.createWriteStream(
@@ -50,12 +54,19 @@ app.use(function (req, res, next) {
   }
 });
 
+app.use(cookieParser());
+
 app.use(
   session({
     secret: '*29.who7!!/<)wanT3tO0be!aMi)lli!on@rE5,',
     resave: false, // just save when session change
     saveUninitialized: false,
     store: store,
+    cookie: {
+      // httpOnly: true, // default true
+      // secure: true,
+      maxAge: hour, // when maxAge has passed, browser will be loggedout both client end server
+    },
   })
 );
 
