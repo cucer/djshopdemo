@@ -7,9 +7,11 @@
 ### Built With
 
 - [React](https://reactjs.org)
-- [MongoDB](https://www.mongodb.com)
+- [Redux](https://redux.js.org)
 - [Node.js](https://nodejs.org)
 - [Express](https://www.expressjs.com/)
+- [MongoDB](https://www.mongodb.com)
+- [Mongoose](https://mongoosejs.com)
 - [Bootswatch](https://bootswatch.com)
 
 <!-- GETTING STARTED -->
@@ -41,6 +43,13 @@ npm i dotenv
 npm i mongoose colors bcryptjs
 npm i express-async-handler
 npm i jsonwebtoken multer morgan
+npm i express-session
+npm i connect-mongodb-session
+npm i helmet
+npm i csurf
+npm i body-parser
+npm i cookie-parser
+npm i node-toobusy
 ```
 
 CLIENT
