@@ -48,6 +48,7 @@ app.use(express.json());
 // middleware which blocks requests when we're too busy // DoS attack
 app.use(function (req, res, next) {
   if (toobusy()) {
+    // log if you see necessary
     res.send(503, "I'm busy right now, sorry.");
   } else {
     next();

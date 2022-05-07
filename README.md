@@ -2,12 +2,11 @@
 
 ## About The Project
 
-<p align="left"><a href="" target="_blank">DEMO URL</a></p>
+<p align="left"><a href="https://djshopdemo.herokuapp.com" target="_blank">DEMO URL</a></p>
 
 ### Built With
 
 - [React](https://reactjs.org)
-- [Redux Toolkit](https://redux-toolkit.js.org)
 - [MongoDB](https://www.mongodb.com)
 - [Node.js](https://nodejs.org)
 - [Express](https://www.expressjs.com/)
@@ -23,7 +22,7 @@ To get a local copy up and running follow these simple example steps.
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/cucer/dj.git
+   git clone https://github.com/cucer/djshopdemo.git
    ```
 2. Install NPM packages
    ```sh
@@ -75,4 +74,4 @@ Don't forget to give the project a star! Thanks again!
 
 Linkedin - [@linkedin](https://www.linkedin.com/in/cagatayucer/)
 
-Project Link: [https://github.com/cucer/dj](https://github.com/cucer/dj)
+Project Link: [https://github.com/cucer/dj](https://github.com/cucer/djshopdemo)
