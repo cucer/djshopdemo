@@ -2,7 +2,7 @@
 
 ## About The Project
 
-<p align="left"><a href="https://djshopdemo.herokuapp.com" target="_blank">DEMO URL</a></p>
+Full Stack E-Commerce Project about Pioneer Dj Products
 
 ### Built With
 
